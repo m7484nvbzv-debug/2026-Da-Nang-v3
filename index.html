@@ -1,0 +1,3567 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>5人成團 峴港貴婦遊 · 2026.12.19–12.22</title>
+  <style>
+    /* =========================================================
+       DESIGN TOKENS · Minimalist Gray-Scale Mobile App Palette
+       ========================================================= */
+    :root {
+      --bg-outer: #e4e4e7;
+      --bg-canvas: #f4f4f5;
+      --bg-card: #ffffff;
+      --bg-subtle: #f4f4f5;
+      --bg-hover: #e4e4e7;
+      --border-light: #e4e4e7;
+      --border-medium: #d4d4d8;
+      --text-primary: #18181b;
+      --text-secondary: #3f3f46;
+      --text-muted: #71717a;
+      --text-light: #a1a1aa;
+      --accent: #18181b;
+      --accent-soft: #27272a;
+      --danger-bg: #fef2f2;
+      --danger-text: #b91c1c;
+      --danger-border: #fecaca;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --radius-pill: 999px;
+      --shadow-card: 0 1px 3px rgba(24, 24, 27, 0.05), 0 1px 2px rgba(24, 24, 27, 0.03);
+      --shadow-shell: 0 12px 36px rgba(24, 24, 27, 0.12);
+      --nav-height: 68px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-outer);
+      color: var(--text-primary);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang HK", "Noto Sans TC", "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Centered Mobile-App Shell */
+    .app-shell {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background-color: var(--bg-canvas);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-shell);
+    }
+
+    @media (max-width: 480px) {
+      html, body {
+        background-color: var(--bg-canvas);
+      }
+      .app-shell {
+        box-shadow: none;
+      }
+    }
+
+    /* =========================================================
+       STICKY TOP HEADER
+       ========================================================= */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(244, 244, 245, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .header-title-group {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .header-title {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-subtitle {
+      margin: 2px 0 0 0;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .save-badge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-light);
+      transition: all 0.2s ease;
+    }
+
+    .save-badge.flash {
+      background-color: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+      transform: scale(1.03);
+    }
+
+    .save-badge.error {
+      background-color: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: var(--danger-border);
+    }
+
+    /* =========================================================
+       MAIN SCROLLABLE AREA & TAB PANELS
+       ========================================================= */
+    .app-main {
+      flex: 1;
+      padding: 14px 16px calc(var(--nav-height) + 28px) 16px;
+    }
+
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.16s ease-out;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================================
+       CARDS, BUTTONS & FORM CONTROLS
+       ========================================================= */
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 15px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .card + .card {
+      margin-top: 12px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 9px 13px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-soft);
+    }
+
+    .btn-subtle {
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+      border-color: var(--border-light);
+    }
+
+    .btn-subtle:hover {
+      background-color: var(--bg-hover);
+    }
+
+    .btn-outline {
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      border-color: var(--border-medium);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    .btn-danger-ghost {
+      background-color: transparent;
+      color: var(--text-muted);
+      border-color: var(--border-light);
+    }
+
+    .btn-danger-ghost:hover {
+      background-color: var(--danger-bg);
+      color: var(--danger-text);
+      border-color: var(--danger-border);
+    }
+
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .icon-btn {
+      appearance: none;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .icon-btn:hover {
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+
+    .icon-btn.del:hover {
+      background-color: var(--danger-bg);
+      color: var(--danger-text);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 9px 11px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-medium);
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 62px;
+    }
+
+    .helper-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* =========================================================
+       DATE BUTTONS & FILTER PILLS
+       ========================================================= */
+    .date-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .date-btn {
+      appearance: none;
+      border: 1px solid var(--border-light);
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      border-radius: var(--radius-pill);
+      padding: 9px 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      font-family: inherit;
+    }
+
+    .date-btn:active {
+      transform: scale(0.97);
+    }
+
+    .date-btn.active {
+      background-color: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 4px 10px rgba(24, 24, 27, 0.18);
+    }
+
+    .day-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 8px;
+    }
+
+    .day-summary-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin: 12px 0;
+      scrollbar-width: none;
+    }
+
+    .filter-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pill-btn {
+      flex-shrink: 0;
+      appearance: none;
+      border: 1px solid var(--border-light);
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      border-radius: var(--radius-pill);
+      padding: 6px 13px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .pill-btn.active {
+      background-color: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    /* =========================================================
+       ITINERARY CARDS & TRANSPORT BOXES
+       ========================================================= */
+    .card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .time-category-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .time-badge {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cat-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: var(--radius-pill);
+      background-color: var(--bg-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-light);
+    }
+
+    .added-by-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: var(--radius-pill);
+      background-color: var(--accent-soft);
+      color: #ffffff;
+    }
+
+    .card-icon-actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .place-title {
+      margin: 0 0 4px 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.35;
+    }
+
+    .place-address {
+      margin: 0 0 8px 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .place-notes {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .transport-box {
+      margin: 0 0 12px 0;
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--accent-soft);
+      border-radius: var(--radius-sm);
+      padding: 9px 11px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .transport-label {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+      letter-spacing: 0.02em;
+    }
+
+    .photo-preview-box {
+      margin-bottom: 12px;
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      background-color: var(--bg-subtle);
+    }
+
+    .photo-preview-box img {
+      width: 100%;
+      max-height: 190px;
+      object-fit: cover;
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .photo-remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(24, 24, 27, 0.8);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .card-footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-footer-actions .btn-flex {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    /* =========================================================
+       OTHER SPOTS COLLAPSIBLE FORM & MEMBER CHIPS
+       ========================================================= */
+    .collapsible-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      gap: 8px;
+    }
+
+    .collapsible-body {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .collapsible-body.collapsed {
+      display: none;
+    }
+
+    .member-select-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .member-select-chip {
+      appearance: none;
+      border: 1px solid var(--border-medium);
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      border-radius: var(--radius-pill);
+      padding: 5px 11px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .member-select-chip.active {
+      background-color: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    /* =========================================================
+       NEW TAB: TRAVEL PHRASES (實用越語)
+       ========================================================= */
+    .phrase-search-bar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-input-wrap .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    .search-input-wrap .form-input {
+      padding-left: 32px;
+      border-radius: var(--radius-pill);
+      background-color: var(--bg-card);
+    }
+
+    .phrase-zh {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.35;
+      margin: 0 0 2px 0;
+    }
+
+    .phrase-en {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin: 0 0 10px 0;
+    }
+
+    .phrase-vi-box {
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 11px 13px;
+      margin-bottom: 12px;
+    }
+
+    .phrase-vi-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .phrase-vi-text {
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    /* Full-screen High-Contrast Show-to-Local Modal */
+    .showcard-backdrop {
+      position: fixed;
+      inset: 0;
+      background: #18181b;
+      color: #ffffff;
+      z-index: 130;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+      padding-top: max(20px, env(safe-area-inset-top));
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+    }
+
+    .showcard-backdrop.open {
+      display: flex;
+      animation: fadeIn 0.16s ease-out;
+    }
+
+    .showcard-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .showcard-cat {
+      font-size: 12px;
+      font-weight: 600;
+      color: #a1a1aa;
+      background: #27272a;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    .showcard-close {
+      appearance: none;
+      border: 1px solid #3f3f46;
+      background: #27272a;
+      color: #ffffff;
+      border-radius: var(--radius-pill);
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .showcard-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px 8px;
+      gap: 16px;
+    }
+
+    .showcard-vi {
+      font-size: clamp(28px, 8vw, 44px);
+      font-weight: 800;
+      line-height: 1.28;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      word-break: break-word;
+    }
+
+    .showcard-divider {
+      width: 48px;
+      height: 2px;
+      background: #3f3f46;
+      border-radius: 2px;
+    }
+
+    .showcard-zh {
+      font-size: 19px;
+      font-weight: 600;
+      color: #e4e4e7;
+    }
+
+    .showcard-en {
+      font-size: 15px;
+      color: #a1a1aa;
+    }
+
+    .showcard-footer {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* =========================================================
+       EXPENSES & BUDGET TAB
+       ========================================================= */
+    .budget-overview {
+      background: linear-gradient(145deg, #18181b 0%, #27272a 100%);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 6px 18px rgba(24, 24, 27, 0.16);
+    }
+
+    .budget-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .budget-label {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .budget-big-num {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .budget-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .budget-stat {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+    }
+
+    .budget-stat-title {
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.68);
+      margin-bottom: 2px;
+    }
+
+    .budget-stat-val {
+      font-size: 13.5px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-track {
+      height: 7px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #e4e4e7;
+      border-radius: var(--radius-pill);
+      transition: width 0.3s ease;
+    }
+
+    .progress-fill.over {
+      background: #fca5a5;
+    }
+
+    .section-heading {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 16px 0 8px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .currency-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background-color: var(--bg-subtle);
+    }
+
+    .currency-toggle-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 9px 6px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+
+    .currency-toggle-btn.active {
+      background-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .split-checkboxes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .split-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-medium);
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+
+    .split-check-label.checked {
+      background-color: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    .split-check-label input {
+      display: none;
+    }
+
+    .settlement-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 11px;
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .settlement-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .settlement-flow {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .settlement-flow strong {
+      color: var(--text-primary);
+    }
+
+    .settlement-amount {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .member-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .member-chip {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      padding: 6px 9px;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      flex: 1 1 calc(50% - 6px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .member-chip strong {
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .expense-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .expense-item:last-child {
+      border-bottom: none;
+      padding-bottom: 2px;
+    }
+
+    .expense-item:first-child {
+      padding-top: 2px;
+    }
+
+    .expense-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .expense-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+
+    .expense-meta {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .expense-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .expense-hkd {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .expense-orig {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .expense-actions {
+      display: flex;
+      gap: 5px;
+      justify-content: flex-end;
+    }
+
+    /* =========================================================
+       CURRENCY CALCULATOR & BACKUP TAB
+       ========================================================= */
+    .calc-input-box {
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      transition: all 0.15s ease;
+    }
+
+    .calc-input-box:focus-within {
+      border-color: var(--accent);
+      background-color: #ffffff;
+    }
+
+    .calc-currency-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .calc-number-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+      outline: none;
+      font-variant-numeric: tabular-nums;
+      font-family: inherit;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .preset-btn {
+      appearance: none;
+      border: 1px solid var(--border-light);
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+      border-radius: var(--radius-sm);
+      padding: 8px 4px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .preset-btn:hover {
+      background-color: var(--bg-hover);
+    }
+
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .ref-table th, .ref-table td {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border-light);
+      text-align: left;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ref-table th {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .ref-table td:last-child, .ref-table th:last-child {
+      text-align: right;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .ref-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* =========================================================
+       FIXED BOTTOM NAVIGATION BAR (5 TABS)
+       ========================================================= */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: var(--nav-height);
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-light);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      z-index: 50;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .nav-btn {
+      appearance: none;
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: var(--text-light);
+      font-size: 10.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.15s ease;
+      font-family: inherit;
+      padding: 4px 2px;
+    }
+
+    .nav-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-btn.active {
+      color: var(--accent);
+    }
+
+    /* =========================================================
+       MODALS, LIGHTBOX & TOAST (NO alert() / confirm())
+       ========================================================= */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(24, 24, 27, 0.48);
+      backdrop-filter: blur(3px);
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    @media (min-width: 481px) {
+      .modal-backdrop {
+        align-items: center;
+      }
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 456px;
+      max-height: 88vh;
+      overflow-y: auto;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+      animation: slideUp 0.18s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .modal-footer {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 14px;
+    }
+
+    .lightbox-img {
+      width: 100%;
+      max-height: 75vh;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+      display: block;
+    }
+
+    .toast {
+      position: fixed;
+      top: 76px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      background: var(--accent);
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 12.5px;
+      font-weight: 600;
+      z-index: 140;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.22s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      max-width: 90%;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 24px 16px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .hidden-input {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sticky Top Header -->
+    <header class="app-header">
+      <div class="header-title-group">
+        <h1 class="header-title">5人成團 峴港貴婦遊</h1>
+        <p class="header-subtitle">2026.12.19 – 12.22 · Centre Point Danang · 5人慢活行程</p>
+      </div>
+      <div id="saveStatusBadge" class="save-badge" role="status" aria-live="polite">
+        💾 已儲存
+      </div>
+    </header>
+
+    <!-- Main Scrollable Content -->
+    <main class="app-main">
+      <!-- ================= TAB 1: ITINERARY (行程) ================= -->
+      <section id="tab-itinerary" class="tab-panel active">
+        <div id="dateTabs" class="date-tabs" role="tablist" aria-label="選擇日期"></div>
+
+        <div class="day-toolbar">
+          <div id="daySummaryText" class="day-summary-text"></div>
+          <button type="button" class="btn btn-primary btn-sm" id="btnAddItinerary">
+            ＋ 新增行程
+          </button>
+        </div>
+
+        <div id="itineraryList"></div>
+      </section>
+
+      <!-- ================= TAB 2: OTHER SPOTS (其他景點) ================= -->
+      <section id="tab-other" class="tab-panel">
+        <div class="card">
+          <div class="collapsible-header" id="toggleOtherFormHeader">
+            <div>
+              <div style="font-size: 14.5px; font-weight: 700; color: var(--text-primary);">＋ 新增想去的地方</div>
+              <div style="font-size: 11.5px; color: var(--text-muted);">貼上 Google Map 連結，與姐妹共編口袋名單</div>
+            </div>
+            <button type="button" class="btn btn-subtle btn-sm" id="toggleOtherFormBtn">收起</button>
+          </div>
+
+          <div id="otherFormBody" class="collapsible-body">
+            <form id="otherPlaceForm">
+              <div class="form-group">
+                <label class="form-label" for="otherMapUrl">Google Map 連結 (標準網址自動擷取名稱)</label>
+                <input type="url" id="otherMapUrl" class="form-input" placeholder="https://www.google.com/maps/place/..." />
+                <div class="helper-text">
+                  貼上完整連結會自動擷取名稱；如為短網址 (maps.app.goo.gl) 請於下方手動輸入名稱。
+                </div>
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label class="form-label" for="otherName">景點 / 餐廳名稱 *</label>
+                  <input type="text" id="otherName" class="form-input" placeholder="例如：Pizza 4P's Da Nang" required />
+                </div>
+
+                <div class="form-group full">
+                  <label class="form-label" for="otherAddedBy">新增者（快速點選或自行輸入）*</label>
+                  <div id="otherMemberChips" class="member-select-chips"></div>
+                  <input type="text" id="otherAddedBy" class="form-input" placeholder="輸入新增者名字" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="otherCategory">分類</label>
+                  <select id="otherCategory" class="form-select">
+                    <option value="餐廳">餐廳</option>
+                    <option value="咖啡館">咖啡館</option>
+                    <option value="按摩SPA">按摩SPA</option>
+                    <option value="購物">購物</option>
+                    <option value="景點">景點</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="otherAddress">地區 / 地址 (選填)</label>
+                  <input type="text" id="otherAddress" class="form-input" placeholder="例如：Hải Châu / Hội An" />
+                </div>
+
+                <div class="form-group full">
+                  <label class="form-label" for="otherNotes">簡短備註（必試菜式、公休日等）</label>
+                  <textarea id="otherNotes" class="form-textarea" placeholder="例如：必點芝士薄餅、週日公休"></textarea>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">＋ 加入其他景點</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="otherFilterPills" class="filter-pills" role="tablist" aria-label="篩選景點分類"></div>
+
+        <div class="day-toolbar" style="margin-top: 2px;">
+          <div id="otherListCount" class="day-summary-text"></div>
+        </div>
+
+        <div id="otherPlacesList"></div>
+      </section>
+
+      <!-- ================= TAB 3: TRAVEL PHRASES (實用越語 - NEW) ================= -->
+      <section id="tab-phrases" class="tab-panel">
+        <div class="phrase-search-bar">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="search" id="phraseSearchInput" class="form-input" placeholder="搜尋中文、英文或越文..." />
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="btnAddPhrase" style="white-space: nowrap;">
+            ＋ 新增句子
+          </button>
+        </div>
+
+        <div id="phraseCategoryPills" class="filter-pills" role="tablist" aria-label="篩選越語分類"></div>
+
+        <div class="day-toolbar" style="margin-top: 2px;">
+          <div id="phraseListCount" class="day-summary-text"></div>
+        </div>
+
+        <div id="phraseList"></div>
+      </section>
+
+      <!-- ================= TAB 4: EXPENSES (記帳) ================= -->
+      <section id="tab-expenses" class="tab-panel">
+        <!-- Budget Summary Card -->
+        <div class="budget-overview">
+          <div class="budget-top-row">
+            <div>
+              <div class="budget-label">每人預算 HK$2,000（5人總計 HK$10,000）</div>
+              <div class="budget-big-num" id="budgetSpentPerPerson">HK$ 0</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="budget-label">每人剩餘</div>
+              <div style="font-size: 15px; font-weight: 700;" id="budgetRemainPerPerson">HK$ 2,000</div>
+            </div>
+          </div>
+
+          <div class="budget-stats-grid">
+            <div class="budget-stat">
+              <div class="budget-stat-title">團隊總花費</div>
+              <div class="budget-stat-val" id="budgetTotalGroup">HK$ 0</div>
+            </div>
+            <div class="budget-stat">
+              <div class="budget-stat-title">待結算</div>
+              <div class="budget-stat-val" id="budgetActiveTotal">HK$ 0</div>
+            </div>
+            <div class="budget-stat">
+              <div class="budget-stat-title">已結清</div>
+              <div class="budget-stat-val" id="budgetSettledTotal">HK$ 0</div>
+            </div>
+          </div>
+
+          <div class="progress-track">
+            <div id="budgetProgressFill" class="progress-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Add Expense Card -->
+        <div class="card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">
+            新增記帳
+          </div>
+          <form id="expenseForm">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label class="form-label" for="expDesc">項目名稱</label>
+                <input type="text" id="expDesc" class="form-input" placeholder="例如：Xóm Mới Garden 晚餐 / 7人座 Grab" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="expAmount">金額</label>
+                <input type="number" id="expAmount" class="form-input" placeholder="0" step="any" min="0" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">幣別</label>
+                <div class="currency-toggle" id="expCurrencyToggle">
+                  <button type="button" class="currency-toggle-btn active" data-curr="VND">VND</button>
+                  <button type="button" class="currency-toggle-btn" data-curr="HKD">HKD</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="expCategory">分類</label>
+                <select id="expCategory" class="form-select">
+                  <option value="餐飲">餐飲</option>
+                  <option value="咖啡">咖啡</option>
+                  <option value="按摩">按摩</option>
+                  <option value="交通">交通</option>
+                  <option value="購物">購物</option>
+                  <option value="其他">其他</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="expPayer">付款人</label>
+                <select id="expPayer" class="form-select"></select>
+              </div>
+              <div class="form-group full">
+                <label class="form-label">分攤成員（預設全員平攤，可點擊切換）</label>
+                <div id="expSplitCheckboxes" class="split-checkboxes"></div>
+              </div>
+            </div>
+            <div id="expConversionHint" style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 10px;">
+              輸入金額將自動按目前匯率換算為港幣
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">加入帳單</button>
+          </form>
+        </div>
+
+        <!-- Who Owes Whom & Member Totals -->
+        <div class="section-heading">
+          <span>誰應付誰 (自動結算建議)</span>
+          <button type="button" class="btn btn-subtle btn-sm" id="btnEditMembers">編輯成員</button>
+        </div>
+        <div class="card">
+          <div id="settlementSummaryList"></div>
+          <div style="border-top: 1px solid var(--border-light); margin-top: 12px; padding-top: 12px;">
+            <div style="font-size: 11.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">待結算墊付金額</div>
+            <div id="memberSummaryList" class="member-chips"></div>
+          </div>
+        </div>
+
+        <!-- Active Bills -->
+        <div class="section-heading">
+          <span>待結算帳單 <span id="activeExpenseCount" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">(0 筆)</span></span>
+          <button type="button" class="btn btn-primary btn-sm" id="btnSettleAll" style="display: none;">全部結清</button>
+        </div>
+        <div class="card">
+          <div id="activeExpenseList"></div>
+        </div>
+
+        <!-- Settlement History -->
+        <div class="section-heading">
+          <span>結算歷史</span>
+          <span id="settledHistoryCount" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">0 筆</span>
+        </div>
+        <div class="card">
+          <div id="settledHistoryList"></div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: CURRENCY & BACKUP (匯率) ================= -->
+      <section id="tab-currency" class="tab-panel">
+        <div class="card">
+          <div style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px;">
+            越南盾 ↔ 港幣 雙向即時換算
+          </div>
+
+          <div class="calc-input-box">
+            <div class="calc-currency-header">
+              <span>VND 越南盾</span>
+              <span>₫</span>
+            </div>
+            <input type="number" id="calcVnd" class="calc-number-input" placeholder="0" inputmode="decimal" />
+          </div>
+
+          <div class="calc-input-box" style="margin-bottom: 0;">
+            <div class="calc-currency-header">
+              <span>HKD 港幣</span>
+              <span>HK$</span>
+            </div>
+            <input type="number" id="calcHkd" class="calc-number-input" placeholder="0" inputmode="decimal" />
+          </div>
+
+          <div class="preset-grid">
+            <button type="button" class="preset-btn" data-vnd="50000">50k</button>
+            <button type="button" class="preset-btn" data-vnd="100000">100k</button>
+            <button type="button" class="preset-btn" data-vnd="200000">200k</button>
+            <button type="button" class="preset-btn" data-vnd="500000">500k</button>
+            <button type="button" class="preset-btn" data-vnd="1000000">1M</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">
+            匯率設定（自動儲存）
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 13px; font-weight: 600; color: var(--text-secondary); white-space: nowrap;">1 HKD =</span>
+            <input type="number" id="exchangeRateInput" class="form-input" step="10" min="1" />
+            <span style="font-size: 13px; font-weight: 600; color: var(--text-secondary);">VND</span>
+          </div>
+          <div class="helper-text">
+            修改後即時同步更新匯率計算器及記帳頁面的港幣換算。
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">
+            常用金額速查表
+          </div>
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>越南盾 (VND)</th>
+                <th>港幣 (HKD)</th>
+              </tr>
+            </thead>
+            <tbody id="refTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">
+            資料儲存與備份還原
+          </div>
+          <div id="storageMetaInfo" style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px;"></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+            <button type="button" class="btn btn-subtle" id="btnExportJson">📤 匯出備份 (JSON)</button>
+            <button type="button" class="btn btn-subtle" id="btnImportJson">📥 匯入備份 (JSON)</button>
+          </div>
+          <button type="button" class="btn btn-danger-ghost btn-block" id="btnResetDefault">🔄 重設為預設資料</button>
+          <input type="file" id="importFileInput" class="hidden-input" accept="application/json" />
+        </div>
+      </section>
+    </main>
+
+    <!-- Fixed Bottom Navigation Bar (5 Tabs) -->
+    <nav class="bottom-nav" aria-label="主導航">
+      <button type="button" class="nav-btn active" data-tab="itinerary">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span>行程</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="other">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span>其他景點</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="phrases">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span>實用越語</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="expenses">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+        <span>記帳</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="currency">
+        <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+        <span>匯率</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Hidden Photo Input for Itinerary Cards -->
+  <input type="file" id="cardPhotoInput" class="hidden-input" accept="image/*" />
+
+  <!-- Modal: Add / Edit Itinerary Item -->
+  <div id="itineraryModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 id="itineraryModalTitle" class="modal-title">新增行程</h2>
+        <button type="button" class="icon-btn" id="closeItineraryModal">✕</button>
+      </div>
+      <form id="itineraryForm">
+        <input type="hidden" id="itinId" />
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="itinTime">時間</label>
+            <input type="time" id="itinTime" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="itinCategory">分類</label>
+            <select id="itinCategory" class="form-select">
+              <option value="咖啡">咖啡</option>
+              <option value="餐廳">餐廳</option>
+              <option value="按摩SPA">按摩SPA</option>
+              <option value="購物">購物</option>
+              <option value="景點">景點</option>
+              <option value="交通">交通</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="itinTitle">地點 / 活動名稱</label>
+            <input type="text" id="itinTitle" class="form-input" placeholder="例如：Annap Coffee" required />
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="itinAddress">地址（用於 Google Map 導航）</label>
+            <input type="text" id="itinAddress" class="form-input" placeholder="例如：106/1 Nguyễn Thị Minh Khai, Hải Châu" />
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="itinMapUrl">Google Map 連結（選填，留空自動產生）</label>
+            <input type="url" id="itinMapUrl" class="form-input" placeholder="https://www.google.com/maps/..." />
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="itinNotes">亮點 / 必試菜式 / 備註</label>
+            <textarea id="itinNotes" class="form-textarea" placeholder="輸入必點美食、預約提示等"></textarea>
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="itinTransit">交通及出口指引</label>
+            <textarea id="itinTransit" class="form-textarea" placeholder="例如：從正門出口左轉步行 5 分鐘..."></textarea>
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="itinModalPhoto">上傳行程圖片（選填，將自動壓縮）</label>
+            <input type="file" id="itinModalPhoto" class="form-input" accept="image/*" style="padding: 6px;" />
+            <div id="itinModalPhotoPreview" class="helper-text"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancelItineraryModal">取消</button>
+          <button type="submit" class="btn btn-primary">儲存行程</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Wishlist Place to Itinerary -->
+  <div id="addToItinModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 class="modal-title">加入每日行程</h2>
+        <button type="button" class="icon-btn" id="closeAddToItinModal">✕</button>
+      </div>
+      <form id="addToItinForm">
+        <input type="hidden" id="copyOtherId" />
+        <div id="copyOtherPreview" style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding: 10px; background: var(--bg-subtle); border-radius: var(--radius-sm); border: 1px solid var(--border-light);"></div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="copyTargetDay">選擇日期</label>
+            <select id="copyTargetDay" class="form-select">
+              <option value="12/19">12/19 (六)</option>
+              <option value="12/20">12/20 (日)</option>
+              <option value="12/21">12/21 (一)</option>
+              <option value="12/22">12/22 (二)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="copyTargetTime">預計時間</label>
+            <input type="time" id="copyTargetTime" class="form-input" value="15:00" required />
+          </div>
+          <div class="form-group full">
+            <label class="form-label" for="copyTargetTransit">交通說明（選填）</label>
+            <input type="text" id="copyTargetTransit" class="form-input" placeholder="例如：搭 7 人 Grab 約 8 分鐘" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancelAddToItinModal">取消</button>
+          <button type="submit" class="btn btn-primary">確認加入行程</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Custom Phrase (新增常用句子) -->
+  <div id="addPhraseModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 class="modal-title">新增常用句子</h2>
+        <button type="button" class="icon-btn" id="closeAddPhraseModal">✕</button>
+      </div>
+      <form id="addPhraseForm">
+        <div class="form-group">
+          <label class="form-label" for="newPhraseZh">中文 *</label>
+          <input type="text" id="newPhraseZh" class="form-input" placeholder="例如：請問可以幫我們拍照嗎？" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newPhraseEn">英文 (English) *</label>
+          <input type="text" id="newPhraseEn" class="form-input" placeholder="e.g., Could you help take a photo for us?" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="newPhraseVi">越南文 (Tiếng Việt) *</label>
+          <input type="text" id="newPhraseVi" class="form-input" placeholder="e.g., Bạn có thể chụp giúp chúng tôi một tấm ảnh không?" required />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancelAddPhraseModal">取消</button>
+          <button type="submit" class="btn btn-primary">儲存句子</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Full-Screen Show-to-Local Phrase Modal (放大展示) -->
+  <div id="showCardModal" class="showcard-backdrop" role="dialog" aria-modal="true">
+    <div class="showcard-top">
+      <span id="showCardCat" class="showcard-cat">實用越語</span>
+      <button type="button" class="showcard-close" id="closeShowCardModal">✕ 關閉</button>
+    </div>
+    <div class="showcard-center">
+      <div id="showCardVi" class="showcard-vi"></div>
+      <div class="showcard-divider"></div>
+      <div id="showCardZh" class="showcard-zh"></div>
+      <div id="showCardEn" class="showcard-en"></div>
+    </div>
+    <div class="showcard-footer">
+      <button type="button" class="btn btn-outline" id="showCardSpeakBtn" style="background: #27272a; color: #ffffff; border-color: #3f3f46; padding: 11px 22px; border-radius: 999px;">
+        🔊 播放越南語發音
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: Edit 5 Member Names -->
+  <div id="membersModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 class="modal-title">編輯 5 位成員名稱</h2>
+        <button type="button" class="icon-btn" id="closeMembersModal">✕</button>
+      </div>
+      <form id="membersForm">
+        <div id="memberInputsContainer"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancelMembersModal">取消</button>
+          <button type="submit" class="btn btn-primary">儲存並同步名單</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Custom Confirm Dialog -->
+  <div id="confirmModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2 id="confirmTitle" class="modal-title">確認操作</h2>
+        <button type="button" class="icon-btn" id="closeConfirmModal">✕</button>
+      </div>
+      <p id="confirmMessage" style="margin: 0 0 16px 0; font-size: 13.5px; color: var(--text-secondary);"></p>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" id="cancelConfirmBtn">取消</button>
+        <button type="button" class="btn btn-primary" id="okConfirmBtn">確認</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Image Lightbox -->
+  <div id="lightboxModal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-sheet" style="padding: 12px;">
+      <div class="modal-header" style="margin-bottom: 8px;">
+        <h2 id="lightboxTitle" class="modal-title" style="font-size: 14px;">照片預覽</h2>
+        <button type="button" class="icon-btn" id="closeLightboxModal">✕</button>
+      </div>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="行程照片" />
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* =========================================================
+         CONSTANTS & DEFAULT DATA (SCHEMA v1.2.0)
+         ========================================================= */
+      const STORAGE_KEY = 'danang_girls_trip_data';
+      const LEGACY_STORAGE_KEYS = ['danang_trip_app_data'];
+      const SCHEMA_VERSION = '1.2.0';
+      const TRIP_NAME = '5人成團 峴港貴婦遊';
+      const DEFAULT_MEMBERS = ['Penny', 'Momo', 'Chaney', 'Ceci', 'Jamie'];
+      const BUDGET_PER_PERSON_HKD = 2000;
+      const GROUP_SIZE = 5;
+
+      const DAY_META = [
+        { key: '12/19', label: '12/19 (六)', desc: '09:20 抵達 · 咖啡、潮牌、越式洗頭' },
+        { key: '12/20', label: '12/20 (日)', desc: '峴港慢活日 · 復古咖啡、按摩、法式晚餐' },
+        { key: '12/21', label: '12/21 (一)', desc: '會安午後與夜景 · 古鎮漫步、天台咖啡' },
+        { key: '12/22', label: '12/22 (二)', desc: '16:30 離境 · 牛油果咖啡、洗頭、告別午餐' }
+      ];
+
+      const OTHER_CATEGORIES = ['全部', '餐廳', '咖啡館', '按摩SPA', '購物', '景點'];
+      const PHRASE_CATEGORIES = ['全部', '基本禮貌', '餐廳咖啡', '按摩洗頭', '購物殺價', '交通問路', '緊急實用', '自訂句子'];
+
+      /**
+       * 32 built-in travel phrases tailored for 5 girls in Da Nang & Hoi An
+       */
+      const BUILTIN_PHRASES = [
+        // 基本禮貌 (5)
+        { id: 'ph-1', category: '基本禮貌', zh: '你好', en: 'Hello', vi: 'Xin chào' },
+        { id: 'ph-2', category: '基本禮貌', zh: '謝謝', en: 'Thank you', vi: 'Cảm ơn' },
+        { id: 'ph-3', category: '基本禮貌', zh: '不好意思 / 請問', en: 'Excuse me', vi: 'Xin lỗi' },
+        { id: 'ph-4', category: '基本禮貌', zh: '洗手間在哪裡？', en: 'Where is the restroom?', vi: 'Nhà vệ sinh ở đâu?' },
+        { id: 'ph-5', category: '基本禮貌', zh: '好的 / 不用了，謝謝', en: 'Yes / No, thank you', vi: 'Vâng / Không, cảm ơn' },
+
+        // 餐廳咖啡 (7)
+        { id: 'ph-6', category: '餐廳咖啡', zh: '我們有 5 位', en: 'Table for 5, please', vi: 'Cho bàn 5 người nhé' },
+        { id: 'ph-7', category: '餐廳咖啡', zh: '請給我餐牌', en: 'Menu, please', vi: 'Cho tôi xem thực đơn' },
+        { id: 'ph-8', category: '餐廳咖啡', zh: '少冰、少甜', en: 'Less ice, less sweet', vi: 'Ít đá, ít ngọt' },
+        { id: 'ph-9', category: '餐廳咖啡', zh: '不要芫荽 / 香菜', en: 'No coriander, please', vi: 'Không rau mùi nhé' },
+        { id: 'ph-10', category: '餐廳咖啡', zh: '不要辣', en: 'No spicy, please', vi: 'Không cay nhé' },
+        { id: 'ph-11', category: '餐廳咖啡', zh: '好好吃！', en: 'Delicious!', vi: 'Rất ngon!' },
+        { id: 'ph-12', category: '餐廳咖啡', zh: '唔該埋單', en: 'Check, please', vi: 'Tính tiền giúp tôi' },
+
+        // 按摩洗頭 (6)
+        { id: 'ph-13', category: '按摩洗頭', zh: '我們有 5 位預約', en: 'We have a reservation for 5', vi: 'Chúng tôi có đặt lịch cho 5 người' },
+        { id: 'ph-14', category: '按摩洗頭', zh: '輕力一點', en: 'Lighter pressure, please', vi: 'Làm nhẹ tay một chút nhé' },
+        { id: 'ph-15', category: '按摩洗頭', zh: '大力一點', en: 'Harder pressure, please', vi: 'Làm mạnh tay một chút nhé' },
+        { id: 'ph-16', category: '按摩洗頭', zh: '請重點按肩頸', en: 'Focus on shoulders & neck', vi: 'Tập trung vào vai và cổ nhé' },
+        { id: 'ph-17', category: '按摩洗頭', zh: '水溫太熱了 / 太冷了', en: 'Water is too hot / too cold', vi: 'Nước nóng quá / Nước lạnh quá' },
+        { id: 'ph-18', category: '按摩洗頭', zh: '非常舒服，謝謝！', en: 'Very comfortable, thank you!', vi: 'Rất thoải mái, cảm ơn!' },
+
+        // 購物殺價 (5)
+        { id: 'ph-19', category: '購物殺價', zh: '這個多少錢？', en: 'How much is this?', vi: 'Cái này bao nhiêu tiền?' },
+        { id: 'ph-20', category: '購物殺價', zh: '可以試穿嗎？', en: 'Can I try this on?', vi: 'Tôi có thể thử không?' },
+        { id: 'ph-21', category: '購物殺價', zh: '有其他尺碼嗎？', en: 'Do you have another size?', vi: 'Có size khác không?' },
+        { id: 'ph-22', category: '購物殺價', zh: '可以便宜一點嗎？', en: 'Can you give a discount?', vi: 'Giảm giá một chút được không?' },
+        { id: 'ph-23', category: '購物殺價', zh: '可以刷卡嗎？', en: 'Do you accept credit cards?', vi: 'Có thanh toán bằng thẻ không?' },
+
+        // 交通問路 (5)
+        { id: 'ph-24', category: '交通問路', zh: '請載我們到這裡', en: 'Please take us here', vi: 'Làm ơn chở chúng tôi đến đây' },
+        { id: 'ph-25', category: '交通問路', zh: '請在這裡停車', en: 'Please stop here', vi: 'Làm ơn dừng ở đây' },
+        { id: 'ph-26', category: '交通問路', zh: '請稍等一下', en: 'Please wait a moment', vi: 'Làm ơn đợi một chút' },
+        { id: 'ph-27', category: '交通問路', zh: '去這裡要多久？', en: 'How long does it take to get here?', vi: 'Đi đến đây mất bao lâu?' },
+        { id: 'ph-28', category: '交通問路', zh: '去 Centre Point 酒店', en: 'To Centre Point Hotel, please', vi: 'Đến khách sạn Centre Point nhé' },
+
+        // 緊急實用 (4)
+        { id: 'ph-29', category: '緊急實用', zh: '請幫幫我', en: 'Please help me', vi: 'Làm ơn giúp tôi' },
+        { id: 'ph-30', category: '緊急實用', zh: 'Wi-Fi 密碼是什麼？', en: 'What is the Wi-Fi password?', vi: 'Mật khẩu Wi-Fi là gì?' },
+        { id: 'ph-31', category: '緊急實用', zh: '我對海鮮過敏', en: "I'm allergic to seafood", vi: 'Tôi bị dị ứng hải sản' },
+        { id: 'ph-32', category: '緊急實用', zh: '請問出口在哪裡？', en: 'Where is the exit?', vi: 'Lối ra ở đâu?' }
+      ];
+
+      /**
+       * Pre-populated 25 backup places mentioned in our conversation (default addedBy: "Penny")
+       */
+      function createDefaultOtherPlaces() {
+        const list = [
+          // Restaurants (13)
+          { id: 'op-1', name: 'Ơ Kìa - Seafood Restaurant', category: '餐廳', address: '7 Trần Phú, Hải Châu, Đà Nẵng', notes: '河景海鮮餐廳，設有私人包廂，適合 5 人聚餐', addedBy: 'Penny' },
+          { id: 'op-2', name: 'LoCo Restaurant - Danang Seafood', category: '餐廳', address: '1C Lê Duẩn, Hải Châu, Đà Nẵng', notes: '兩層樓寬敞座位，必點蒜蓉牛油海鮮與蟹肉炒飯', addedBy: 'Penny' },
+          { id: 'op-3', name: 'Nhà hàng Madame Lân', category: '餐廳', address: '04 Bạch Đằng, Hải Châu, Đà Nẵng', notes: '漢江畔大型庭園越菜地標，菜式選擇豐富', addedBy: 'Penny' },
+          { id: 'op-4', name: 'Truc Lam Vien Cafe & Restaurant', category: '餐廳', address: '08 Trần Quý Cáp, Hải Châu, Đà Nẵng', notes: '傳統越式庭園建築與家常料理', addedBy: 'Penny' },
+          { id: 'op-5', name: 'NEM LỤI TÂM CHỢ HÀN', category: '餐廳', address: '66 Phan Châu Trinh, Hải Châu, Đà Nẵng', notes: '韓市場旁人氣炭烤香茅豬肉串 (Nem lụi)', addedBy: 'Penny' },
+          { id: 'op-6', name: 'Nhà Hàng Bếp Xưa', category: '餐廳', address: '27 Nguyễn Chí Thanh, Hải Châu, Đà Nẵng', notes: '古色古香裝潢與地道越式家常菜', addedBy: 'Penny' },
+          { id: 'op-7', name: 'Le Comptoir', category: '餐廳', address: '16 Chế Lan Viên, Ngũ Hành Sơn, Đà Nẵng', notes: '米芝蓮入選法式料理，設有 Tasting Menu 及包廂', addedBy: 'Penny' },
+          { id: 'op-8', name: 'Cabanon Palace', category: '餐廳', address: '27-29 Loseby 21F, Sơn Trà, Đà Nẵng', notes: '21 樓天台高空南法景觀餐廳（週日公休）', addedBy: 'Penny' },
+          { id: 'op-9', name: 'The Temptation', category: '餐廳', address: '125 Hồ Nghinh, Sơn Trà, Đà Nẵng', notes: '法越主廚精緻法式套餐，午晚餐皆宜', addedBy: 'Penny' },
+          { id: 'op-10', name: 'La Maison 1888', category: '餐廳', address: '山茶半島洲際酒店內, Đà Nẵng', notes: '頂級奢華法式 Fine Dining，需提前預約', addedBy: 'Penny' },
+          { id: 'op-11', name: 'Morning Glory Original', category: '餐廳', address: '106 Nguyễn Thái Học, Hội An', notes: '會安古鎮經典中越料理名店', addedBy: 'Penny' },
+          { id: 'op-12', name: 'Hẻm Quán Đà Nẵng', category: '餐廳', address: 'Da Nang, Vietnam', notes: '地道越式料理與新鮮海鮮熱炒', addedBy: 'Penny' },
+          { id: 'op-13', name: 'Mộc quán Seafood', category: '餐廳', address: '26 Tô Hiến Thành, Sơn Trà, Đà Nẵng', notes: '人氣超高越式海鮮餐廳，建議預約', addedBy: 'Penny' },
+
+          // Cafes (8)
+          { id: 'op-14', name: 'Outta da Blue Đà Nẵng', category: '咖啡館', address: '66 Pasteur, Hải Châu, Đà Nẵng', notes: '現代極簡精品手沖咖啡店', addedBy: 'Penny' },
+          { id: 'op-15', name: 'WONDERLUST - Coffee & Souvenir', category: '咖啡館', address: '96 Trần Phú, Hải Châu, Đà Nẵng', notes: '質感咖啡館結合文青設計伴手禮選物', addedBy: 'Penny' },
+          { id: 'op-16', name: 'The Joy Cafe', category: '咖啡館', address: '7 Nguyễn Thái Học, Hải Châu, Đà Nẵng', notes: '海洲區高評價社區咖啡，氣氛輕鬆', addedBy: 'Penny' },
+          { id: 'op-17', name: 'Àla Cafe', category: '咖啡館', address: '113/27 Nguyễn Chí Thanh, Hải Châu, Đà Nẵng', notes: '靜謐巷弄特色手沖咖啡', addedBy: 'Penny' },
+          { id: 'op-18', name: 'Cộng Cà Phê', category: '咖啡館', address: '98-96 Bạch Đằng, Hải Châu, Đà Nẵng', notes: '經典越共復古風，招牌越式椰子冰沙咖啡', addedBy: 'Penny' },
+          { id: 'op-19', name: 'NORMAD CAFE - Da Nang', category: '咖啡館', address: '近美溪沙灘, Đà Nẵng', notes: '美學早午餐與精品咖啡空間', addedBy: 'Penny' },
+          { id: 'op-20', name: 'Faifo Coffee', category: '咖啡館', address: '130 Trần Phú, Hội An', notes: '會安必去黃牆天台，俯瞰古鎮屋瓦', addedBy: 'Penny' },
+          { id: 'op-21', name: 'Moments Hoi An', category: '咖啡館', address: '47 Lê Lợi, Hội An', notes: '會安古鎮庭園景觀咖啡館', addedBy: 'Penny' },
+
+          // Spas / Shopping / Sights (4)
+          { id: 'op-22', name: 'Vincom Plaza Da Nang', category: '購物', address: '910A Ngô Quyền, Sơn Trà, Đà Nẵng', notes: '大型冷氣商場與超市，適合吹冷氣逛街買手信', addedBy: 'Penny' },
+          { id: 'op-23', name: '粉紅教堂 (Da Nang Cathedral)', category: '景點', address: '156 Trần Phú, Hải Châu, Đà Nẵng', notes: '夢幻粉紅色法式哥德教堂，打卡熱點', addedBy: 'Penny' },
+          { id: 'op-24', name: '迦南島竹籃船 (Cam Thanh Coconut Boat)', category: '景點', address: 'Cẩm Thanh, Hội An', notes: '趣味水椰林竹籃船體驗，建議下午 15:00 前往', addedBy: 'Penny' },
+          { id: 'op-25', name: 'Healthy Spa / Sum Spa', category: '按摩SPA', address: 'Hải Châu, Đà Nẵng', notes: '高評價越式洗頭與全身按摩，線上預訂常有折扣', addedBy: 'Penny' }
+        ];
+
+        return list.map(item => ({
+          ...item,
+          mapUrl: buildGoogleMapsUrl(item.name, item.address),
+          createdAt: '2026-11-24T00:00:00.000Z'
+        }));
+      }
+
+      /**
+       * Create fresh default app state (v1.2.0)
+       */
+      function createDefaultData() {
+        return {
+          version: SCHEMA_VERSION,
+          tripName: TRIP_NAME,
+          activeTab: 'itinerary',
+          selectedDay: '12/19',
+          exchangeRate: 3250,
+          members: [...DEFAULT_MEMBERS],
+          itinerary: {
+            '12/19': [
+              {
+                id: 'd1-1',
+                time: '09:20',
+                category: '交通',
+                title: '抵達峴港國際機場 (Danang International Airport)',
+                address: 'Duy Tân, Hòa Thuận Tây, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '09:20 抵達峴港國際機場，辦理入境手續與領取行李。',
+                transit: '過海關領行李後，從國際航廈 1 樓「Gate A4 / A5」出口離開，右轉至 Grab 專屬候車區叫 7 人座 GrabCar 前往酒店（車程約 15 分鐘）。',
+                photo: ''
+              },
+              {
+                id: 'd1-2',
+                time: '10:30',
+                category: '咖啡',
+                title: 'Centre Point Danang Hotel 寄放行李 & Annap Coffee',
+                address: '106/1 Nguyễn Thị Minh Khai, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '先於 Centre Point 酒店寄放行李，再到 2 分鐘步程的高挑空間 Annap Coffee 嘆晨間咖啡與輕食。',
+                transit: '從酒店正門左轉，沿 Nguyễn Thị Minh Khai 街直行約 2 分鐘即達。',
+                photo: ''
+              },
+              {
+                id: 'd1-3',
+                time: '13:30',
+                category: '購物',
+                title: 'Lolem Clothing & LOLEM Luxury 逛本地設計服飾',
+                address: 'Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '採買越南本地設計女裝與度假風洋裝，輕鬆試穿。',
+                transit: '從酒店搭 7 人座 Grab 約 5–8 分鐘，或步行約 12 分鐘至海洲區服飾街。',
+                photo: ''
+              },
+              {
+                id: 'd1-4',
+                time: '15:30',
+                category: '按摩SPA',
+                title: 'Bliss Spa / Len Spa 越式草本洗頭 (60分鐘)',
+                address: 'Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '體驗正宗越式草本洗頭與肩頸舒壓（約 350k–390k VND），洗去早機疲勞。',
+                transit: '從逛街點步行或搭 Grab 約 5 分鐘抵達海洲區分店。',
+                photo: ''
+              },
+              {
+                id: 'd1-5',
+                time: '18:30',
+                category: '餐廳',
+                title: 'Xóm Mới Garden Đà Nẵng 歡迎晚餐',
+                address: '222 Trần Phú, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '綠意庭園環境，非常適合 5 人分享越式煎餅 (Bánh xèo)、烤排骨及椰子炒飯。',
+                transit: '從酒店正門右轉往漢江方向走，轉入 Trần Phú 街步行約 15 分鐘（或 Grab 4 分鐘）。',
+                photo: ''
+              }
+            ],
+            '12/20': [
+              {
+                id: 'd2-1',
+                time: '10:00',
+                category: '咖啡',
+                title: 'NAM house Cafe 復古早午餐咖啡',
+                address: '15/1 Lê Hồng Phong, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '兩層樓 80 年代復古越南老宅，必試蛋咖啡、花生咖啡及打卡拍照。',
+                transit: '從酒店步行約 14 分鐘，轉入 Lê Hồng Phong 15 號靜巷內。',
+                photo: ''
+              },
+              {
+                id: 'd2-2',
+                time: '12:00',
+                category: '購物',
+                title: '韓市場 (Han Market) & Cô Ba Phở bò 午餐',
+                address: '154 Bạch Đằng, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '逛韓市場買藤編包、度假涼鞋，再到河畔人氣老店吃熱騰騰牛肉粉。',
+                transit: '從咖啡館步行約 10 分鐘至 Trần Phú 街正門入韓市場，出市場東門過馬路即達 Bạch Đằng 河畔吃牛肉粉。',
+                photo: ''
+              },
+              {
+                id: 'd2-3',
+                time: '14:30',
+                category: '按摩SPA',
+                title: 'Clover Spa 全身熱石/香薰按摩 (90分鐘)',
+                address: '266 Trần Phú, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '90 分鐘全身熱石或精油按摩，建議提前預約 5 人同時段包房。',
+                transit: '沿 Trần Phú 街往南步行約 8 分鐘抵達。',
+                photo: ''
+              },
+              {
+                id: 'd2-4',
+                time: '16:30',
+                category: '咖啡',
+                title: 'indigo coffee 河畔下午茶',
+                address: '30 Bạch Đằng, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '開放式質感空間，必試柚子抹茶與椰子抹茶拿鐵，按摩完放空聊天。',
+                transit: '步行往漢江邊 Bạch Đằng 街約 6 分鐘。',
+                photo: ''
+              },
+              {
+                id: 'd2-5',
+                time: '19:00',
+                category: '餐廳',
+                title: 'Le Petit Bistro Da Nang 法式晚餐',
+                address: '81/09 Phan Tứ, Ngũ Hành Sơn, Đà Nẵng',
+                mapUrl: '',
+                notes: '高性價比法式小酒館，推薦 5 人分享油封鴨、紅酒燉牛肉、法式洋蔥湯與紅酒。',
+                transit: '搭 7 人座 Grab 過龍橋往美溪沙灘方向約 12 分鐘（週日照常營業，請提前訂位）。',
+                photo: ''
+              }
+            ],
+            '12/21': [
+              {
+                id: 'd3-1',
+                time: '10:30',
+                category: '咖啡',
+                title: 'Cửa Ngõ Café 早安咖啡',
+                address: '102 Nguyễn Thị Minh Khai, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '睡到自然醒的悠閒早晨，就在酒店旁的質感咖啡館醒神。',
+                transit: '酒店正門出來步行 1 分鐘即達。',
+                photo: ''
+              },
+              {
+                id: 'd3-2',
+                time: '12:00',
+                category: '餐廳',
+                title: 'Cơm nhà vui 越式家常合菜午餐',
+                address: '86 Đ. 2 Tháng 9, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '兩層高溫馨家常越菜館，設有團體套餐方便 5 人分享。',
+                transit: '步行約 15 分鐘或搭 Grab 5 分鐘抵達。',
+                photo: ''
+              },
+              {
+                id: 'd3-3',
+                time: '14:30',
+                category: '景點',
+                title: '會安古鎮 (Phố Cổ Hội An) & 日本橋 (Chùa Cầu) 慢逛',
+                address: 'Phố Cổ Hội An, Quảng Nam',
+                mapUrl: '',
+                notes: '悠閒逛古鎮亞麻服飾店、手工皮革店與地標日本廊橋拍照。',
+                transit: '從酒店大堂正門搭 7 人座包車/Grab 南下約 35–40 分鐘，於古鎮入口下車步行。',
+                photo: ''
+              },
+              {
+                id: 'd3-4',
+                time: '16:30',
+                category: '咖啡',
+                title: 'Mê Hội An Rooftop Coffee & Kitchen 天台看夕陽',
+                address: '166 Trần Phú, Hội An',
+                mapUrl: '',
+                notes: '在古鎮天台喝下午茶，靜賞日落與漸次亮起的燈籠景色。',
+                transit: '沿古鎮 Trần Phú 主街步行約 5 分鐘。',
+                photo: ''
+              },
+              {
+                id: 'd3-5',
+                time: '18:30',
+                category: '餐廳',
+                title: 'Phin Coffee Restaurant 晚餐 & 會安夜市 (Chợ Đêm Hội An)',
+                address: '132/7 Trần Phú, Hội An',
+                mapUrl: '',
+                notes: '品嚐會安特色白玫瑰與高樓麵，飯後漫步燈籠夜市及秋盆河畔。',
+                transit: '步行過安會橋 (An Hội Bridge) 約 6 分鐘即達夜市，21:00 於原下車處搭專車回峴港。',
+                photo: ''
+              }
+            ],
+            '12/22': [
+              {
+                id: 'd4-1',
+                time: '09:30',
+                category: '咖啡',
+                title: 'Trình cà phê 牛油果咖啡 & GO! Da Nang 超市買手信',
+                address: '25 Phạm Hồng Thái, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '必飲招牌牛油果咖啡與椰子咖啡，再去大型超市掃腰果、咖啡豆及芒果乾。',
+                transit: '從酒店步行約 12 分鐘至 Trình cà phê，再步行 8 分鐘至 Hùng Vương 街的 GO! 超市。',
+                photo: ''
+              },
+              {
+                id: 'd4-2',
+                time: '11:30',
+                category: '按摩SPA',
+                title: 'Maha Spa / Luxury Herbal Spa 離境前洗頭+肩頸按摩 (70分鐘)',
+                address: 'Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '上機前做最後一次草本洗頭與肩頸放鬆，吹整好頭髮清爽登機。',
+                transit: '搭 7 人座 Grab 約 8 分鐘前往。',
+                photo: ''
+              },
+              {
+                id: 'd4-3',
+                time: '13:15',
+                category: '餐廳',
+                title: 'Ăn Thôi 告別越菜午餐',
+                address: '114 Bạch Đằng, Hải Châu, Đà Nẵng',
+                mapUrl: '',
+                notes: '米芝蓮入選漢江畔名店，必點越式煎餅、香茅烤肉串與菠蘿炒飯。',
+                transit: '搭 Grab 回海洲區 Bạch Đằng 街約 8 分鐘。',
+                photo: ''
+              },
+              {
+                id: 'd4-4',
+                time: '14:15',
+                category: '交通',
+                title: '回酒店取行李 & 前往峴港國際機場 (16:30 起飛)',
+                address: 'Danang International Airport, Đà Nẵng',
+                mapUrl: '',
+                notes: '回 Centre Point 取行李，16:30 航班滿載戰利品開心返港！',
+                transit: '酒店正門搭 7 人座 Grab 約 15 分鐘，於「國際離境大堂 2 樓 Departure Gate」下車辦理登機。',
+                photo: ''
+              }
+            ]
+          },
+          otherPlaces: createDefaultOtherPlaces(),
+          customPhrases: [],
+          expenses: [],
+          settlementHistory: [],
+          updatedAt: new Date().toISOString()
+        };
+      }
+
+      /* =========================================================
+         STATE, AUTO-SAVE & VERSION MIGRATION (v1.0.0 -> v1.2.0)
+         ========================================================= */
+      let appState = loadData();
+      let activeOtherCategory = '全部';
+      let activePhraseCategory = '全部';
+      let activeExpCurrency = 'VND';
+      let currentPhotoTargetId = null;
+      let modalTempPhoto = '';
+      let pendingConfirmCallback = null;
+      let activeShowCardVi = '';
+      let flashTimer = null;
+
+      function isGenericMemberName(name) {
+        if (!name || typeof name !== 'string') return true;
+        const n = name.trim();
+        return /^(成員\s*[1-5A-Ea-e]|姐妹\s*[1-5A-Ea-e]|Girl\s*[1-5A-Ea-e]|Member\s*[1-5A-Ea-e])$/i.test(n);
+      }
+
+      function loadData() {
+        const defaults = createDefaultData();
+        try {
+          let raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            for (const legacyKey of LEGACY_STORAGE_KEYS) {
+              const legacyRaw = localStorage.getItem(legacyKey);
+              if (legacyRaw) {
+                raw = legacyRaw;
+                break;
+              }
+            }
+          }
+          if (!raw) return defaults;
+
+          const parsed = JSON.parse(raw);
+          if (!parsed || typeof parsed !== 'object') return defaults;
+
+          const savedDay = parsed.selectedDay || parsed.selectedDate;
+          const savedHistory = Array.isArray(parsed.settlementHistory)
+            ? parsed.settlementHistory
+            : (Array.isArray(parsed.settledHistory) ? parsed.settledHistory : []);
+          const validTabs = ['itinerary', 'other', 'phrases', 'expenses', 'currency'];
+          const savedTab = validTabs.includes(parsed.activeTab) ? parsed.activeTab : 'itinerary';
+
+          // Migrate placeholder members to ["Penny", "Momo", "Chaney", "Ceci", "Jamie"]
+          let members = Array.isArray(parsed.members) && parsed.members.length === GROUP_SIZE
+            ? [...parsed.members]
+            : [...DEFAULT_MEMBERS];
+          const renameMap = {};
+
+          members = members.map((m, idx) => {
+            if (isGenericMemberName(m)) {
+              renameMap[m] = DEFAULT_MEMBERS[idx];
+              return DEFAULT_MEMBERS[idx];
+            }
+            return m;
+          });
+
+          const migrateExpense = (exp) => {
+            const payer = renameMap[exp.payer] || exp.payer || members[0];
+            const splitAmong = Array.isArray(exp.splitAmong) && exp.splitAmong.length > 0
+              ? exp.splitAmong.map(name => renameMap[name] || name)
+              : [...members];
+            return { ...exp, payer, splitAmong };
+          };
+
+          const expenses = Array.isArray(parsed.expenses) ? parsed.expenses.map(migrateExpense) : [];
+          const settlementHistory = savedHistory.map(migrateExpense);
+
+          const otherPlaces = Array.isArray(parsed.otherPlaces) && parsed.otherPlaces.length > 0
+            ? parsed.otherPlaces.map(p => ({
+                ...p,
+                category: p.category === 'SPA' ? '按摩SPA' : p.category,
+                addedBy: renameMap[p.addedBy] || p.addedBy || 'Penny'
+              }))
+            : defaults.otherPlaces;
+
+          const customPhrases = Array.isArray(parsed.customPhrases) ? parsed.customPhrases : [];
+
+          const merged = {
+            version: SCHEMA_VERSION,
+            tripName: TRIP_NAME,
+            activeTab: savedTab,
+            selectedDay: DAY_META.some(d => d.key === savedDay) ? savedDay : defaults.selectedDay,
+            exchangeRate: Number(parsed.exchangeRate) > 0 ? Number(parsed.exchangeRate) : defaults.exchangeRate,
+            members,
+            itinerary: parsed.itinerary && typeof parsed.itinerary === 'object' ? parsed.itinerary : defaults.itinerary,
+            otherPlaces,
+            customPhrases,
+            expenses,
+            settlementHistory,
+            updatedAt: parsed.updatedAt || new Date().toISOString()
+          };
+
+          DAY_META.forEach(d => {
+            if (!Array.isArray(merged.itinerary[d.key])) {
+              merged.itinerary[d.key] = defaults.itinerary[d.key] || [];
+            }
+          });
+
+          return merged;
+        } catch (err) {
+          console.error('Failed to restore localStorage:', err);
+          return defaults;
+        }
+      }
+
+      function saveData(withFlash) {
+        const badge = document.getElementById('saveStatusBadge');
+        appState.version = SCHEMA_VERSION;
+        appState.tripName = TRIP_NAME;
+        appState.updatedAt = new Date().toISOString();
+
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+          if (badge) {
+            badge.classList.remove('error');
+            badge.textContent = '💾 已儲存';
+            if (withFlash !== false) {
+              badge.classList.add('flash');
+              clearTimeout(flashTimer);
+              flashTimer = setTimeout(() => badge.classList.remove('flash'), 480);
+            }
+          }
+          renderStorageMeta();
+          return true;
+        } catch (err) {
+          console.error('localStorage save error:', err);
+          if (badge) {
+            badge.classList.remove('flash');
+            badge.classList.add('error');
+            badge.textContent = '⚠️ 儲存失敗';
+          }
+          showToast('⚠️ 儲存失敗：瀏覽器空間不足或停用儲存功能');
+          return false;
+        }
+      }
+
+      /* =========================================================
+         UTILITIES, SPEECH SYNTHESIS & IMAGE COMPRESSION
+         ========================================================= */
+      function escapeHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function formatNumber(num, decimals) {
+        const n = Number(num) || 0;
+        return n.toLocaleString('en-US', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function toHkd(amount, currency) {
+        const val = Number(amount) || 0;
+        return currency === 'HKD' ? val : val / (appState.exchangeRate || 3250);
+      }
+
+      function buildGoogleMapsUrl(title, address) {
+        const query = encodeURIComponent(((title || '') + ' ' + (address || '')).trim());
+        return 'https://www.google.com/maps/search/?api=1&query=' + query;
+      }
+
+      function extractNameFromGoogleMapsUrl(rawUrl) {
+        if (!rawUrl || typeof rawUrl !== 'string') return '';
+        const trimmed = rawUrl.trim();
+        if (/maps\.app\.goo\.gl|goo\.gl\/maps/i.test(trimmed)) return '';
+        try {
+          const url = new URL(trimmed);
+          const placeMatch = url.pathname.match(/\/maps\/place\/([^/]+)/i);
+          if (placeMatch && placeMatch[1]) {
+            const decoded = decodeURIComponent(placeMatch[1].replace(/\+/g, ' ')).trim();
+            if (decoded && !/^-?\d+(\.\d+)?,\s*-?\d+(\.\d+)?$/.test(decoded)) return decoded;
+          }
+          const qParam = url.searchParams.get('q') || url.searchParams.get('query');
+          if (qParam) {
+            const decodedQ = decodeURIComponent(qParam.replace(/\+/g, ' ')).trim();
+            if (decodedQ && !/^-?\d+(\.\d+)?,\s*-?\d+(\.\d+)?$/.test(decodedQ)) return decodedQ;
+          }
+        } catch (e) {
+          return '';
+        }
+        return '';
+      }
+
+      /**
+       * Speak Vietnamese phrase via Web Speech API with graceful fallback notice
+       */
+      function speakVietnamese(text) {
+        if (!text) return;
+        if (typeof window.speechSynthesis === 'undefined' || typeof SpeechSynthesisUtterance === 'undefined') {
+          showToast('此裝置瀏覽器不支援語音發音，可使用「放大展示」給對方看');
+          return;
+        }
+        try {
+          window.speechSynthesis.cancel();
+          const voices = window.speechSynthesis.getVoices ? window.speechSynthesis.getVoices() : [];
+          const viVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('vi'));
+
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = 'vi-VN';
+          utter.rate = 0.92;
+          if (viVoice) {
+            utter.voice = viVoice;
+          } else if (voices.length > 0) {
+            showToast('裝置未安裝越南語語音包，已嘗試以預設語音朗讀');
+          }
+
+          utter.onerror = function () {
+            showToast('無法播放語音，建議點「放大展示」直接出示螢幕');
+          };
+          window.speechSynthesis.speak(utter);
+        } catch (err) {
+          showToast('無法播放語音，建議點「放大展示」直接出示螢幕');
+        }
+      }
+
+      // Warm up voices list on iOS/Chrome
+      if (typeof window.speechSynthesis !== 'undefined' && window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = function () {
+          window.speechSynthesis.getVoices();
+        };
+      }
+
+      function compressImageFile(file, callback) {
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          const img = new Image();
+          img.onload = function () {
+            try {
+              const maxWidth = 600;
+              let w = img.width;
+              let h = img.height;
+              if (w > maxWidth) {
+                h = Math.round((h * maxWidth) / w);
+                w = maxWidth;
+              }
+              const canvas = document.createElement('canvas');
+              canvas.width = w;
+              canvas.height = h;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, w, h);
+              callback(null, canvas.toDataURL('image/jpeg', 0.65));
+            } catch (err) {
+              callback(err);
+            }
+          };
+          img.onerror = function () { callback(new Error('Image load failed')); };
+          img.src = evt.target.result;
+        };
+        reader.onerror = function () { callback(new Error('File read failed')); };
+        reader.readAsDataURL(file);
+      }
+
+      let toastTimer = null;
+      function showToast(msg) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+      }
+
+      function openConfirm(title, message, onConfirm) {
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = message;
+        pendingConfirmCallback = onConfirm;
+        document.getElementById('confirmModal').classList.add('open');
+      }
+
+      function closeConfirm() {
+        pendingConfirmCallback = null;
+        document.getElementById('confirmModal').classList.remove('open');
+      }
+
+      /* =========================================================
+         TAB 1: ITINERARY RENDER & ACTIONS
+         ========================================================= */
+      function renderDateTabs() {
+        const container = document.getElementById('dateTabs');
+        container.innerHTML = DAY_META.map(day => {
+          const isActive = day.key === appState.selectedDay;
+          return `
+            <button type="button" class="date-btn ${isActive ? 'active' : ''}" data-date="${day.key}" role="tab" aria-selected="${isActive}">
+              ${escapeHtml(day.label)}
+            </button>
+          `;
+        }).join('');
+
+        container.querySelectorAll('.date-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            appState.selectedDay = btn.dataset.date;
+            saveData(true);
+            renderDateTabs();
+            renderItineraryList();
+          });
+        });
+      }
+
+      function renderItineraryList() {
+        const dayKey = appState.selectedDay;
+        const meta = DAY_META.find(d => d.key === dayKey);
+        const items = appState.itinerary[dayKey] || [];
+        document.getElementById('daySummaryText').textContent = meta ? `${meta.desc}（${items.length} 項）` : '';
+
+        const listEl = document.getElementById('itineraryList');
+        if (items.length === 0) {
+          listEl.innerHTML = '<div class="card empty-state">這一天暫無行程，點擊「＋ 新增行程」或從「其他景點」加入。</div>';
+          return;
+        }
+
+        items.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+        listEl.innerHTML = items.map(item => {
+          const mapUrl = item.mapUrl && item.mapUrl.trim() ? item.mapUrl.trim() : buildGoogleMapsUrl(item.title, item.address);
+          const photoHtml = item.photo ? `
+            <div class="photo-preview-box">
+              <img src="${item.photo}" alt="${escapeHtml(item.title)}" data-action="view-photo" data-id="${item.id}" />
+              <button type="button" class="photo-remove-btn" data-action="remove-photo" data-id="${item.id}">移除照片</button>
+            </div>
+          ` : '';
+
+          const transitHtml = item.transit && item.transit.trim() ? `
+            <div class="transport-box">
+              <span class="transport-label">🚕 交通及出口指引</span>
+              <div>${escapeHtml(item.transit)}</div>
+            </div>
+          ` : '';
+
+          return `
+            <article class="card">
+              <div class="card-top-row">
+                <div class="time-category-group">
+                  <span class="time-badge">${escapeHtml(item.time)}</span>
+                  <span class="cat-pill">${escapeHtml(item.category)}</span>
+                </div>
+                <div class="card-icon-actions">
+                  <button type="button" class="icon-btn" data-action="edit" data-id="${item.id}">編輯</button>
+                  <button type="button" class="icon-btn del" data-action="delete" data-id="${item.id}">刪除</button>
+                </div>
+              </div>
+              <h3 class="place-title">${escapeHtml(item.title)}</h3>
+              ${item.address ? `<p class="place-address">📍 <span>${escapeHtml(item.address)}</span></p>` : ''}
+              ${item.notes ? `<p class="place-notes">${escapeHtml(item.notes)}</p>` : ''}
+              ${transitHtml}
+              ${photoHtml}
+              <div class="card-footer-actions">
+                <a href="${escapeHtml(mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm btn-flex">
+                  📍 Google Map 導航 ↗
+                </a>
+                <button type="button" class="btn btn-subtle btn-sm" data-action="upload-photo" data-id="${item.id}">
+                  📷 ${item.photo ? '更換圖片' : '上傳圖片'}
+                </button>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      function openItineraryModal(item) {
+        const isEdit = Boolean(item);
+        document.getElementById('itineraryModalTitle').textContent = isEdit ? '編輯行程' : `新增行程 (${appState.selectedDay})`;
+        document.getElementById('itinId').value = isEdit ? item.id : '';
+        document.getElementById('itinTime').value = isEdit ? item.time : '12:00';
+        document.getElementById('itinCategory').value = isEdit ? item.category : '咖啡';
+        document.getElementById('itinTitle').value = isEdit ? item.title : '';
+        document.getElementById('itinAddress').value = isEdit ? (item.address || '') : '';
+        document.getElementById('itinMapUrl').value = isEdit ? (item.mapUrl || '') : '';
+        document.getElementById('itinNotes').value = isEdit ? (item.notes || '') : '';
+        document.getElementById('itinTransit').value = isEdit ? (item.transit || '') : '';
+        document.getElementById('itinModalPhoto').value = '';
+        modalTempPhoto = isEdit ? (item.photo || '') : '';
+        document.getElementById('itinModalPhotoPreview').textContent = modalTempPhoto ? '✓ 已附有行程照片（重新選擇可覆蓋）' : '';
+        document.getElementById('itineraryModal').classList.add('open');
+      }
+
+      function closeItineraryModal() {
+        document.getElementById('itineraryModal').classList.remove('open');
+      }
+
+      document.getElementById('btnAddItinerary').addEventListener('click', () => openItineraryModal(null));
+      document.getElementById('closeItineraryModal').addEventListener('click', closeItineraryModal);
+      document.getElementById('cancelItineraryModal').addEventListener('click', closeItineraryModal);
+
+      document.getElementById('itinModalPhoto').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        compressImageFile(file, (err, dataUrl) => {
+          if (err) {
+            showToast('圖片處理失敗');
+            return;
+          }
+          modalTempPhoto = dataUrl;
+          document.getElementById('itinModalPhotoPreview').textContent = '✓ 已壓縮圖片，按儲存行程即可套用';
+        });
+      });
+
+      document.getElementById('itineraryForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('itinId').value;
+        const dayItems = appState.itinerary[appState.selectedDay];
+        const payload = {
+          time: document.getElementById('itinTime').value || '12:00',
+          category: document.getElementById('itinCategory').value,
+          title: document.getElementById('itinTitle').value.trim(),
+          address: document.getElementById('itinAddress').value.trim(),
+          mapUrl: document.getElementById('itinMapUrl').value.trim(),
+          notes: document.getElementById('itinNotes').value.trim(),
+          transit: document.getElementById('itinTransit').value.trim(),
+          photo: modalTempPhoto
+        };
+        if (!payload.title) return;
+
+        if (id) {
+          const idx = dayItems.findIndex(x => x.id === id);
+          if (idx !== -1) dayItems[idx] = { ...dayItems[idx], ...payload };
+          showToast('行程已更新');
+        } else {
+          dayItems.push({ id: 'item-' + Date.now(), ...payload });
+          showToast('已新增行程');
+        }
+
+        saveData(true);
+        renderItineraryList();
+        closeItineraryModal();
+      });
+
+      document.getElementById('itineraryList').addEventListener('click', (e) => {
+        const target = e.target.closest('[data-action]');
+        if (!target) return;
+        const action = target.dataset.action;
+        const id = target.dataset.id;
+        const dayItems = appState.itinerary[appState.selectedDay];
+        const item = dayItems.find(x => x.id === id);
+        if (!item) return;
+
+        if (action === 'edit') {
+          openItineraryModal(item);
+        } else if (action === 'delete') {
+          openConfirm('刪除行程', `確定要刪除「${item.title}」嗎？`, () => {
+            appState.itinerary[appState.selectedDay] = dayItems.filter(x => x.id !== id);
+            saveData(true);
+            renderItineraryList();
+            showToast('已刪除行程');
+          });
+        } else if (action === 'upload-photo') {
+          currentPhotoTargetId = id;
+          const fileInput = document.getElementById('cardPhotoInput');
+          fileInput.value = '';
+          fileInput.click();
+        } else if (action === 'remove-photo') {
+          item.photo = '';
+          saveData(true);
+          renderItineraryList();
+          showToast('已移除照片');
+        } else if (action === 'view-photo') {
+          document.getElementById('lightboxTitle').textContent = item.title;
+          document.getElementById('lightboxImg').src = item.photo;
+          document.getElementById('lightboxModal').classList.add('open');
+        }
+      });
+
+      document.getElementById('cardPhotoInput').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file || !currentPhotoTargetId) return;
+        compressImageFile(file, (err, compressedDataUrl) => {
+          if (err) {
+            showToast('圖片處理失敗');
+            return;
+          }
+          const dayItems = appState.itinerary[appState.selectedDay];
+          const item = dayItems.find(x => x.id === currentPhotoTargetId);
+          if (item) {
+            const prevPhoto = item.photo;
+            item.photo = compressedDataUrl;
+            if (saveData(true)) {
+              renderItineraryList();
+              showToast('照片已壓縮並儲存');
+            } else {
+              item.photo = prevPhoto;
+            }
+          }
+        });
+      });
+
+      document.getElementById('closeLightboxModal').addEventListener('click', () => {
+        document.getElementById('lightboxModal').classList.remove('open');
+      });
+
+      /* =========================================================
+         TAB 2: OTHER SPOTS (其他景點) RENDER & ACTIONS
+         ========================================================= */
+      document.getElementById('toggleOtherFormHeader').addEventListener('click', () => {
+        const body = document.getElementById('otherFormBody');
+        const btn = document.getElementById('toggleOtherFormBtn');
+        const isCollapsed = body.classList.toggle('collapsed');
+        btn.textContent = isCollapsed ? '展開' : '收起';
+      });
+
+      document.getElementById('otherMapUrl').addEventListener('input', (e) => {
+        const extracted = extractNameFromGoogleMapsUrl(e.target.value);
+        const nameInput = document.getElementById('otherName');
+        if (extracted && !nameInput.value.trim()) {
+          nameInput.value = extracted;
+          showToast(`已自動擷取名稱：${extracted}`);
+        }
+      });
+
+      function renderOtherMemberChips() {
+        const container = document.getElementById('otherMemberChips');
+        const addedByInput = document.getElementById('otherAddedBy');
+        if (!addedByInput.value.trim() && appState.members.length > 0) {
+          addedByInput.value = appState.members[0];
+        }
+
+        container.innerHTML = appState.members.map(name => {
+          const isActive = addedByInput.value.trim() === name;
+          return `<button type="button" class="member-select-chip ${isActive ? 'active' : ''}" data-member="${escapeHtml(name)}">${escapeHtml(name)}</button>`;
+        }).join('');
+
+        container.querySelectorAll('.member-select-chip').forEach(btn => {
+          btn.addEventListener('click', () => {
+            addedByInput.value = btn.dataset.member;
+            renderOtherMemberChips();
+          });
+        });
+      }
+
+      document.getElementById('otherAddedBy').addEventListener('input', renderOtherMemberChips);
+
+      document.getElementById('otherPlaceForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const rawUrl = document.getElementById('otherMapUrl').value.trim();
+        const name = document.getElementById('otherName').value.trim();
+        const addedBy = document.getElementById('otherAddedBy').value.trim() || appState.members[0] || 'Penny';
+        const category = document.getElementById('otherCategory').value;
+        const address = document.getElementById('otherAddress').value.trim();
+        const notes = document.getElementById('otherNotes').value.trim();
+
+        if (!name) return;
+
+        appState.otherPlaces.unshift({
+          id: 'op-' + Date.now(),
+          name,
+          category,
+          address,
+          notes,
+          addedBy,
+          mapUrl: rawUrl || buildGoogleMapsUrl(name, address || 'Da Nang Vietnam'),
+          createdAt: new Date().toISOString()
+        });
+
+        saveData(true);
+        document.getElementById('otherMapUrl').value = '';
+        document.getElementById('otherName').value = '';
+        document.getElementById('otherAddress').value = '';
+        document.getElementById('otherNotes').value = '';
+        renderOtherPlaces();
+        showToast(`已由 ${addedBy} 加入「${name}」`);
+      });
+
+      function renderOtherFilterPills() {
+        const container = document.getElementById('otherFilterPills');
+        container.innerHTML = OTHER_CATEGORIES.map(cat => {
+          const count = cat === '全部'
+            ? appState.otherPlaces.length
+            : appState.otherPlaces.filter(p => p.category === cat).length;
+          const isActive = cat === activeOtherCategory;
+          return `<button type="button" class="pill-btn ${isActive ? 'active' : ''}" data-cat="${cat}">${cat} (${count})</button>`;
+        }).join('');
+
+        container.querySelectorAll('.pill-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            activeOtherCategory = btn.dataset.cat;
+            renderOtherPlaces();
+          });
+        });
+      }
+
+      function renderOtherPlaces() {
+        renderOtherMemberChips();
+        renderOtherFilterPills();
+
+        const filtered = activeOtherCategory === '全部'
+          ? appState.otherPlaces
+          : appState.otherPlaces.filter(p => p.category === activeOtherCategory);
+
+        document.getElementById('otherListCount').textContent = `顯示 ${filtered.length} 個地點（共 ${appState.otherPlaces.length} 個）`;
+
+        const listEl = document.getElementById('otherPlacesList');
+        if (filtered.length === 0) {
+          listEl.innerHTML = '<div class="card empty-state">此分類暫未有地點，可在上方貼上 Google Map 連結新增！</div>';
+          return;
+        }
+
+        listEl.innerHTML = filtered.map(place => {
+          const mapUrl = place.mapUrl && place.mapUrl.trim()
+            ? place.mapUrl.trim()
+            : buildGoogleMapsUrl(place.name, place.address);
+
+          return `
+            <article class="card">
+              <div class="card-top-row">
+                <div class="time-category-group">
+                  <span class="cat-pill">${escapeHtml(place.category)}</span>
+                  <span class="added-by-badge">👤 由 ${escapeHtml(place.addedBy)} 新增</span>
+                </div>
+                <button type="button" class="icon-btn del" data-other-action="delete" data-id="${place.id}">刪除</button>
+              </div>
+              <h3 class="place-title">${escapeHtml(place.name)}</h3>
+              ${place.address ? `<p class="place-address">📍 <span>${escapeHtml(place.address)}</span></p>` : ''}
+              ${place.notes ? `<p class="place-notes">${escapeHtml(place.notes)}</p>` : ''}
+              <div class="card-footer-actions">
+                <a href="${escapeHtml(mapUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm btn-flex">
+                  📍 Google Map 導航 ↗
+                </a>
+                <button type="button" class="btn btn-subtle btn-sm" data-other-action="add-to-itin" data-id="${place.id}">
+                  ➕ 加入行程
+                </button>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('otherPlacesList').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-other-action]');
+        if (!btn) return;
+        const action = btn.dataset.otherAction;
+        const id = btn.dataset.id;
+        const place = appState.otherPlaces.find(p => p.id === id);
+        if (!place) return;
+
+        if (action === 'delete') {
+          openConfirm('刪除其他景點', `確定要從清單移除「${place.name}」嗎？`, () => {
+            appState.otherPlaces = appState.otherPlaces.filter(p => p.id !== id);
+            saveData(true);
+            renderOtherPlaces();
+            showToast('已移除該地點');
+          });
+        } else if (action === 'add-to-itin') {
+          document.getElementById('copyOtherId').value = place.id;
+          document.getElementById('copyOtherPreview').textContent = `${place.name}（${place.category}）`;
+          document.getElementById('copyTargetDay').value = appState.selectedDay;
+          document.getElementById('copyTargetTime').value = '15:00';
+          document.getElementById('copyTargetTransit').value = '';
+          document.getElementById('addToItinModal').classList.add('open');
+        }
+      });
+
+      function closeAddToItinModal() {
+        document.getElementById('addToItinModal').classList.remove('open');
+      }
+
+      document.getElementById('closeAddToItinModal').addEventListener('click', closeAddToItinModal);
+      document.getElementById('cancelAddToItinModal').addEventListener('click', closeAddToItinModal);
+
+      document.getElementById('addToItinForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const placeId = document.getElementById('copyOtherId').value;
+        const targetDay = document.getElementById('copyTargetDay').value;
+        const targetTime = document.getElementById('copyTargetTime').value || '15:00';
+        const targetTransit = document.getElementById('copyTargetTransit').value.trim();
+
+        const place = appState.otherPlaces.find(p => p.id === placeId);
+        if (!place) return;
+
+        const mappedCat = place.category === '咖啡館' ? '咖啡' : place.category;
+
+        appState.itinerary[targetDay].push({
+          id: 'item-' + Date.now(),
+          time: targetTime,
+          category: mappedCat,
+          title: place.name,
+          address: place.address || '',
+          mapUrl: place.mapUrl || '',
+          notes: place.notes ? `${place.notes}（由 ${place.addedBy} 推薦）` : `由 ${place.addedBy} 推薦`,
+          transit: targetTransit,
+          photo: ''
+        });
+
+        appState.selectedDay = targetDay;
+        saveData(true);
+        renderDateTabs();
+        renderItineraryList();
+        closeAddToItinModal();
+        showToast(`已加入 ${targetDay} 行程！`);
+      });
+
+      /* =========================================================
+         TAB 3: TRAVEL PHRASES (實用越語 - NEW)
+         ========================================================= */
+      function getAllPhrases() {
+        const customs = (appState.customPhrases || []).map(p => ({ ...p, category: '自訂句子', isCustom: true }));
+        return [...customs, ...BUILTIN_PHRASES];
+      }
+
+      function renderPhraseCategoryPills() {
+        const all = getAllPhrases();
+        const container = document.getElementById('phraseCategoryPills');
+        container.innerHTML = PHRASE_CATEGORIES.map(cat => {
+          const count = cat === '全部' ? all.length : all.filter(p => p.category === cat).length;
+          const isActive = cat === activePhraseCategory;
+          return `<button type="button" class="pill-btn ${isActive ? 'active' : ''}" data-pcat="${cat}">${cat} (${count})</button>`;
+        }).join('');
+
+        container.querySelectorAll('.pill-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            activePhraseCategory = btn.dataset.pcat;
+            renderPhrases();
+          });
+        });
+      }
+
+      function renderPhrases() {
+        renderPhraseCategoryPills();
+
+        const query = (document.getElementById('phraseSearchInput').value || '').trim().toLowerCase();
+        const all = getAllPhrases();
+        const filtered = all.filter(p => {
+          const matchCat = activePhraseCategory === '全部' || p.category === activePhraseCategory;
+          if (!matchCat) return false;
+          if (!query) return true;
+          return (
+            (p.zh && p.zh.toLowerCase().includes(query)) ||
+            (p.en && p.en.toLowerCase().includes(query)) ||
+            (p.vi && p.vi.toLowerCase().includes(query))
+          );
+        });
+
+        document.getElementById('phraseListCount').textContent = `顯示 ${filtered.length} 句（共 ${all.length} 句）`;
+
+        const listEl = document.getElementById('phraseList');
+        if (filtered.length === 0) {
+          listEl.innerHTML = '<div class="card empty-state">找不到符合的句子，可清除搜尋或點擊「＋ 新增句子」。</div>';
+          return;
+        }
+
+        listEl.innerHTML = filtered.map(p => `
+          <article class="card">
+            <div class="card-top-row">
+              <span class="cat-pill">${escapeHtml(p.category)}</span>
+              ${p.isCustom ? `<button type="button" class="icon-btn del" data-phrase-action="delete" data-id="${p.id}">刪除</button>` : ''}
+            </div>
+            <h3 class="phrase-zh">${escapeHtml(p.zh)}</h3>
+            <p class="phrase-en">${escapeHtml(p.en)}</p>
+            <div class="phrase-vi-box">
+              <div class="phrase-vi-label">Tiếng Việt</div>
+              <div class="phrase-vi-text">${escapeHtml(p.vi)}</div>
+            </div>
+            <div class="card-footer-actions">
+              <button type="button" class="btn btn-subtle btn-sm btn-flex" data-phrase-action="speak" data-id="${p.id}">
+                🔊 發音
+              </button>
+              <button type="button" class="btn btn-primary btn-sm btn-flex" data-phrase-action="show" data-id="${p.id}">
+                🔍 放大展示
+              </button>
+            </div>
+          </article>
+        `).join('');
+      }
+
+      document.getElementById('phraseSearchInput').addEventListener('input', renderPhrases);
+
+      document.getElementById('phraseList').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-phrase-action]');
+        if (!btn) return;
+        const action = btn.dataset.phraseAction;
+        const id = btn.dataset.id;
+        const phrase = getAllPhrases().find(p => p.id === id);
+        if (!phrase) return;
+
+        if (action === 'speak') {
+          speakVietnamese(phrase.vi);
+        } else if (action === 'show') {
+          activeShowCardVi = phrase.vi;
+          document.getElementById('showCardCat').textContent = phrase.category;
+          document.getElementById('showCardVi').textContent = phrase.vi;
+          document.getElementById('showCardZh').textContent = phrase.zh;
+          document.getElementById('showCardEn').textContent = phrase.en;
+          document.getElementById('showCardModal').classList.add('open');
+        } else if (action === 'delete') {
+          openConfirm('刪除自訂句子', `確定要刪除「${phrase.zh}」嗎？`, () => {
+            appState.customPhrases = (appState.customPhrases || []).filter(p => p.id !== id);
+            saveData(true);
+            renderPhrases();
+            showToast('已刪除自訂句子');
+          });
+        }
+      });
+
+      document.getElementById('closeShowCardModal').addEventListener('click', () => {
+        document.getElementById('showCardModal').classList.remove('open');
+      });
+
+      document.getElementById('showCardSpeakBtn').addEventListener('click', () => {
+        speakVietnamese(activeShowCardVi);
+      });
+
+      // Add Custom Phrase Modal
+      function openAddPhraseModal() {
+        document.getElementById('newPhraseZh').value = '';
+        document.getElementById('newPhraseEn').value = '';
+        document.getElementById('newPhraseVi').value = '';
+        document.getElementById('addPhraseModal').classList.add('open');
+      }
+
+      function closeAddPhraseModal() {
+        document.getElementById('addPhraseModal').classList.remove('open');
+      }
+
+      document.getElementById('btnAddPhrase').addEventListener('click', openAddPhraseModal);
+      document.getElementById('closeAddPhraseModal').addEventListener('click', closeAddPhraseModal);
+      document.getElementById('cancelAddPhraseModal').addEventListener('click', closeAddPhraseModal);
+
+      document.getElementById('addPhraseForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const zh = document.getElementById('newPhraseZh').value.trim();
+        const en = document.getElementById('newPhraseEn').value.trim();
+        const vi = document.getElementById('newPhraseVi').value.trim();
+        if (!zh || !en || !vi) return;
+
+        if (!Array.isArray(appState.customPhrases)) appState.customPhrases = [];
+        appState.customPhrases.unshift({
+          id: 'cph-' + Date.now(),
+          zh,
+          en,
+          vi,
+          createdAt: new Date().toISOString()
+        });
+
+        saveData(true);
+        closeAddPhraseModal();
+        renderPhrases();
+        showToast('已新增自訂常用句子');
+      });
+
+      /* =========================================================
+         TAB 4: EXPENSES, SPLIT & SETTLEMENT
+         ========================================================= */
+      document.getElementById('expCurrencyToggle').addEventListener('click', (e) => {
+        const btn = e.target.closest('.currency-toggle-btn');
+        if (!btn) return;
+        activeExpCurrency = btn.dataset.curr;
+        document.querySelectorAll('#expCurrencyToggle .currency-toggle-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.curr === activeExpCurrency);
+        });
+        updateExpenseHint();
+      });
+
+      function renderExpenseMemberControls() {
+        const select = document.getElementById('expPayer');
+        const currentVal = select.value;
+        select.innerHTML = appState.members.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join('');
+        if (appState.members.includes(currentVal)) select.value = currentVal;
+
+        const boxContainer = document.getElementById('expSplitCheckboxes');
+        const prevChecked = new Set(
+          Array.from(boxContainer.querySelectorAll('input[type="checkbox"]:checked')).map(el => el.value)
+        );
+        const hasExisting = boxContainer.children.length > 0;
+
+        boxContainer.innerHTML = appState.members.map(m => {
+          const isChecked = !hasExisting || prevChecked.has(m);
+          return `
+            <label class="split-check-label ${isChecked ? 'checked' : ''}">
+              <input type="checkbox" value="${escapeHtml(m)}" ${isChecked ? 'checked' : ''} />
+              <span>${escapeHtml(m)}</span>
+            </label>
+          `;
+        }).join('');
+
+        boxContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          cb.addEventListener('change', () => {
+            cb.closest('.split-check-label').classList.toggle('checked', cb.checked);
+            updateExpenseHint();
+          });
+        });
+      }
+
+      function getSelectedSplitMembers() {
+        return Array.from(document.querySelectorAll('#expSplitCheckboxes input[type="checkbox"]:checked')).map(el => el.value);
+      }
+
+      function updateExpenseHint() {
+        const amt = parseFloat(document.getElementById('expAmount').value);
+        const splitCount = Math.max(1, getSelectedSplitMembers().length);
+        const hint = document.getElementById('expConversionHint');
+        if (!amt || amt <= 0) {
+          hint.textContent = `目前匯率：1 HKD = ${formatNumber(appState.exchangeRate, 0)} VND`;
+          return;
+        }
+        const hkd = toHkd(amt, activeExpCurrency);
+        const perPerson = hkd / splitCount;
+        if (activeExpCurrency === 'VND') {
+          hint.textContent = `約 HK$ ${formatNumber(hkd, 1)}（${splitCount} 人平攤，每人 HK$ ${formatNumber(perPerson, 1)}）`;
+        } else {
+          const vnd = amt * appState.exchangeRate;
+          hint.textContent = `約 ${formatNumber(vnd, 0)} VND（${splitCount} 人平攤，每人 HK$ ${formatNumber(perPerson, 1)}）`;
+        }
+      }
+
+      document.getElementById('expAmount').addEventListener('input', updateExpenseHint);
+
+      document.getElementById('expenseForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const desc = document.getElementById('expDesc').value.trim();
+        const amount = parseFloat(document.getElementById('expAmount').value);
+        const category = document.getElementById('expCategory').value;
+        const payer = document.getElementById('expPayer').value;
+        const splitAmong = getSelectedSplitMembers();
+
+        if (!desc || isNaN(amount) || amount <= 0) return;
+        if (splitAmong.length === 0) {
+          showToast('請至少勾選 1 位分攤成員');
+          return;
+        }
+
+        appState.expenses.unshift({
+          id: 'exp-' + Date.now(),
+          desc,
+          amount,
+          currency: activeExpCurrency,
+          category,
+          payer,
+          splitAmong,
+          createdAt: new Date().toISOString()
+        });
+
+        saveData(true);
+        document.getElementById('expDesc').value = '';
+        document.getElementById('expAmount').value = '';
+        document.querySelectorAll('#expSplitCheckboxes input[type="checkbox"]').forEach(cb => {
+          cb.checked = true;
+          cb.closest('.split-check-label').classList.add('checked');
+        });
+        updateExpenseHint();
+        renderExpenses();
+        showToast('已新增帳單');
+      });
+
+      function calculateSettlements(pendingExpenses) {
+        const balances = {};
+        appState.members.forEach(m => { balances[m] = 0; });
+
+        pendingExpenses.forEach(exp => {
+          const hkd = toHkd(exp.amount, exp.currency);
+          const participants = Array.isArray(exp.splitAmong) && exp.splitAmong.length > 0
+            ? exp.splitAmong
+            : appState.members;
+          const share = hkd / participants.length;
+
+          balances[exp.payer] = (balances[exp.payer] || 0) + hkd;
+          participants.forEach(person => {
+            balances[person] = (balances[person] || 0) - share;
+          });
+        });
+
+        const debtors = [];
+        const creditors = [];
+        Object.keys(balances).forEach(name => {
+          const bal = balances[name];
+          if (bal < -0.05) debtors.push({ name, amount: -bal });
+          else if (bal > 0.05) creditors.push({ name, amount: bal });
+        });
+
+        debtors.sort((a, b) => b.amount - a.amount);
+        creditors.sort((a, b) => b.amount - a.amount);
+
+        const transfers = [];
+        let i = 0, j = 0;
+        while (i < debtors.length && j < creditors.length) {
+          const amt = Math.min(debtors[i].amount, creditors[j].amount);
+          if (amt > 0.05) {
+            transfers.push({ from: debtors[i].name, to: creditors[j].name, amount: amt });
+          }
+          debtors[i].amount -= amt;
+          creditors[j].amount -= amt;
+          if (debtors[i].amount < 0.05) i++;
+          if (creditors[j].amount < 0.05) j++;
+        }
+        return transfers;
+      }
+
+      function renderExpenses() {
+        renderExpenseMemberControls();
+        updateExpenseHint();
+
+        const activeTotalHkd = appState.expenses.reduce((sum, e) => sum + toHkd(e.amount, e.currency), 0);
+        const settledTotalHkd = appState.settlementHistory.reduce((sum, e) => sum + toHkd(e.amount, e.currency), 0);
+        const totalGroupHkd = activeTotalHkd + settledTotalHkd;
+        const spentPerPerson = totalGroupHkd / GROUP_SIZE;
+        const remainPerPerson = BUDGET_PER_PERSON_HKD - spentPerPerson;
+        const pct = Math.min(100, (spentPerPerson / BUDGET_PER_PERSON_HKD) * 100);
+
+        document.getElementById('budgetSpentPerPerson').textContent = `HK$ ${formatNumber(spentPerPerson, 1)}`;
+        document.getElementById('budgetRemainPerPerson').textContent = `${remainPerPerson < 0 ? '-' : ''}HK$ ${formatNumber(Math.abs(remainPerPerson), 1)}`;
+        document.getElementById('budgetTotalGroup').textContent = `HK$ ${formatNumber(totalGroupHkd, 0)}`;
+        document.getElementById('budgetActiveTotal').textContent = `HK$ ${formatNumber(activeTotalHkd, 0)}`;
+        document.getElementById('budgetSettledTotal').textContent = `HK$ ${formatNumber(settledTotalHkd, 0)}`;
+
+        const fill = document.getElementById('budgetProgressFill');
+        fill.style.width = `${pct}%`;
+        fill.classList.toggle('over', remainPerPerson < 0);
+
+        const transfers = calculateSettlements(appState.expenses);
+        const settleEl = document.getElementById('settlementSummaryList');
+        if (transfers.length === 0) {
+          settleEl.innerHTML = '<div style="font-size: 12.5px; color: var(--text-muted); text-align: center; padding: 6px 0;">目前帳目已平衡，暫無需轉帳項目</div>';
+        } else {
+          settleEl.innerHTML = transfers.map(t => `
+            <div class="settlement-row">
+              <div class="settlement-flow"><strong>${escapeHtml(t.from)}</strong> → 付給 <strong>${escapeHtml(t.to)}</strong></div>
+              <div class="settlement-amount">HK$ ${formatNumber(t.amount, 1)}</div>
+            </div>
+          `).join('');
+        }
+
+        const paidMap = {};
+        appState.members.forEach(m => { paidMap[m] = 0; });
+        appState.expenses.forEach(e => {
+          paidMap[e.payer] = (paidMap[e.payer] || 0) + toHkd(e.amount, e.currency);
+        });
+
+        document.getElementById('memberSummaryList').innerHTML = Object.keys(paidMap).map(name => `
+          <div class="member-chip">
+            <span>${escapeHtml(name)}</span>
+            <strong>HK$ ${formatNumber(paidMap[name], 1)}</strong>
+          </div>
+        `).join('');
+
+        document.getElementById('activeExpenseCount').textContent = `(${appState.expenses.length} 筆)`;
+        document.getElementById('btnSettleAll').style.display = appState.expenses.length > 0 ? 'inline-flex' : 'none';
+
+        const activeEl = document.getElementById('activeExpenseList');
+        if (appState.expenses.length === 0) {
+          activeEl.innerHTML = '<div class="empty-state">暫無待結算帳單</div>';
+        } else {
+          activeEl.innerHTML = appState.expenses.map(item => {
+            const hkd = toHkd(item.amount, item.currency);
+            const origLabel = item.currency === 'VND'
+              ? `${formatNumber(item.amount, 0)} VND`
+              : `HK$ ${formatNumber(item.amount, 1)}`;
+            const splitList = Array.isArray(item.splitAmong) && item.splitAmong.length > 0 ? item.splitAmong : appState.members;
+            const splitText = splitList.length === appState.members.length
+              ? '全員平攤'
+              : `分攤：${splitList.join('、')}`;
+
+            return `
+              <div class="expense-item">
+                <div class="expense-main">
+                  <div class="expense-title">${escapeHtml(item.desc)}</div>
+                  <div class="expense-meta">
+                    <span class="cat-pill">${escapeHtml(item.category)}</span>
+                    <span>付款：${escapeHtml(item.payer)}</span>
+                    <span>${escapeHtml(splitText)}（每人 HK$ ${formatNumber(hkd / splitList.length, 1)}）</span>
+                  </div>
+                </div>
+                <div class="expense-right">
+                  <div class="expense-hkd">HK$ ${formatNumber(hkd, 1)}</div>
+                  <div class="expense-orig">${origLabel}</div>
+                  <div class="expense-actions">
+                    <button type="button" class="btn btn-subtle btn-sm" data-exp-action="settle" data-id="${item.id}">結清</button>
+                    <button type="button" class="btn btn-danger-ghost btn-sm" data-exp-action="delete-active" data-id="${item.id}">刪除</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        document.getElementById('settledHistoryCount').textContent = `${appState.settlementHistory.length} 筆`;
+        const settledEl = document.getElementById('settledHistoryList');
+        if (appState.settlementHistory.length === 0) {
+          settledEl.innerHTML = '<div class="empty-state">暫無結算歷史紀錄</div>';
+        } else {
+          settledEl.innerHTML = appState.settlementHistory.map(item => {
+            const hkd = toHkd(item.amount, item.currency);
+            const settledDate = item.settledAt ? new Date(item.settledAt).toLocaleString('zh-HK', {
+              month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+            }) : '';
+            return `
+              <div class="expense-item">
+                <div class="expense-main">
+                  <div class="expense-title" style="color: var(--text-secondary);">${escapeHtml(item.desc)}</div>
+                  <div class="expense-meta">
+                    <span class="cat-pill">${escapeHtml(item.category)}</span>
+                    <span>${escapeHtml(item.payer)}</span>
+                    <span>結清於 ${escapeHtml(settledDate)}</span>
+                  </div>
+                </div>
+                <div class="expense-right">
+                  <div class="expense-hkd" style="color: var(--text-secondary);">HK$ ${formatNumber(hkd, 1)}</div>
+                  <div class="expense-actions" style="margin-top: 4px;">
+                    <button type="button" class="btn btn-danger-ghost btn-sm" data-exp-action="delete-settled" data-id="${item.id}">刪除</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      document.getElementById('btnSettleAll').addEventListener('click', () => {
+        if (appState.expenses.length === 0) return;
+        openConfirm('全部結清帳單', `確定要將目前 ${appState.expenses.length} 筆待結算帳單全部移至「結算歷史」嗎？`, () => {
+          const now = new Date().toISOString();
+          const settled = appState.expenses.map(e => ({ ...e, settledAt: now }));
+          appState.settlementHistory = [...settled, ...appState.settlementHistory];
+          appState.expenses = [];
+          saveData(true);
+          renderExpenses();
+          showToast('所有待結算帳單已結清');
+        });
+      });
+
+      document.getElementById('activeExpenseList').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-exp-action]');
+        if (!btn) return;
+        const action = btn.dataset.expAction;
+        const id = btn.dataset.id;
+
+        if (action === 'settle') {
+          const idx = appState.expenses.findIndex(x => x.id === id);
+          if (idx !== -1) {
+            const [item] = appState.expenses.splice(idx, 1);
+            item.settledAt = new Date().toISOString();
+            appState.settlementHistory.unshift(item);
+            saveData(true);
+            renderExpenses();
+            showToast('帳單已移至結算歷史');
+          }
+        } else if (action === 'delete-active') {
+          appState.expenses = appState.expenses.filter(x => x.id !== id);
+          saveData(true);
+          renderExpenses();
+          showToast('已刪除帳單');
+        }
+      });
+
+      document.getElementById('settledHistoryList').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-exp-action="delete-settled"]');
+        if (!btn) return;
+        appState.settlementHistory = appState.settlementHistory.filter(x => x.id !== btn.dataset.id);
+        saveData(true);
+        renderExpenses();
+        showToast('已刪除結算紀錄');
+      });
+
+      // Edit 5 Member Names Modal
+      document.getElementById('btnEditMembers').addEventListener('click', () => {
+        const container = document.getElementById('memberInputsContainer');
+        container.innerHTML = appState.members.map((name, i) => `
+          <div class="form-group">
+            <label class="form-label" for="memberInput${i}">成員 ${i + 1}</label>
+            <input type="text" id="memberInput${i}" class="form-input" value="${escapeHtml(name)}" required />
+          </div>
+        `).join('');
+        document.getElementById('membersModal').classList.add('open');
+      });
+
+      function closeMembersModal() {
+        document.getElementById('membersModal').classList.remove('open');
+      }
+
+      document.getElementById('closeMembersModal').addEventListener('click', closeMembersModal);
+      document.getElementById('cancelMembersModal').addEventListener('click', closeMembersModal);
+
+      document.getElementById('membersForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const oldMembers = [...appState.members];
+        const newMembers = appState.members.map((_, i) => {
+          const val = document.getElementById(`memberInput${i}`).value.trim();
+          return val || DEFAULT_MEMBERS[i];
+        });
+
+        const renameMap = {};
+        oldMembers.forEach((oldName, idx) => { renameMap[oldName] = newMembers[idx]; });
+
+        const applyRename = (exp) => {
+          if (renameMap[exp.payer]) exp.payer = renameMap[exp.payer];
+          if (Array.isArray(exp.splitAmong)) {
+            exp.splitAmong = exp.splitAmong.map(n => renameMap[n] || n);
+          }
+        };
+
+        appState.expenses.forEach(applyRename);
+        appState.settlementHistory.forEach(applyRename);
+        appState.otherPlaces.forEach(p => { if (renameMap[p.addedBy]) p.addedBy = renameMap[p.addedBy]; });
+        appState.members = newMembers;
+
+        const otherAddedByInput = document.getElementById('otherAddedBy');
+        if (renameMap[otherAddedByInput.value]) {
+          otherAddedByInput.value = renameMap[otherAddedByInput.value];
+        }
+
+        document.getElementById('expSplitCheckboxes').innerHTML = '';
+
+        saveData(true);
+        renderExpenses();
+        renderOtherPlaces();
+        closeMembersModal();
+        showToast('成員名單已同步更新');
+      });
+
+      /* =========================================================
+         TAB 5: CURRENCY CONVERTER & DATA BACKUP
+         ========================================================= */
+      const calcVndEl = document.getElementById('calcVnd');
+      const calcHkdEl = document.getElementById('calcHkd');
+      const rateInputEl = document.getElementById('exchangeRateInput');
+
+      function renderCurrencyTab() {
+        rateInputEl.value = appState.exchangeRate;
+        renderRefTable();
+        renderStorageMeta();
+      }
+
+      function renderRefTable() {
+        const amounts = [10000, 50000, 100000, 200000, 350000, 500000, 1000000];
+        const rate = appState.exchangeRate || 3250;
+        document.getElementById('refTableBody').innerHTML = amounts.map(vnd => `
+          <tr>
+            <td>${formatNumber(vnd, 0)} VND</td>
+            <td>HK$ ${formatNumber(vnd / rate, 1)}</td>
+          </tr>
+        `).join('');
+      }
+
+      function renderStorageMeta() {
+        const el = document.getElementById('storageMetaInfo');
+        if (!el) return;
+        let sizeKb = '0.0';
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY) || '';
+          sizeKb = (new Blob([raw]).size / 1024).toFixed(1);
+        } catch (e) {}
+        const timeStr = appState.updatedAt ? new Date(appState.updatedAt).toLocaleString('zh-HK') : '-';
+        el.textContent = `資料版本 v${appState.version} · 已用空間約 ${sizeKb} KB · 最後儲存：${timeStr}`;
+      }
+
+      calcVndEl.addEventListener('input', () => {
+        const vnd = parseFloat(calcVndEl.value);
+        calcHkdEl.value = isNaN(vnd) ? '' : (vnd / (appState.exchangeRate || 3250)).toFixed(2);
+      });
+
+      calcHkdEl.addEventListener('input', () => {
+        const hkd = parseFloat(calcHkdEl.value);
+        calcVndEl.value = isNaN(hkd) ? '' : Math.round(hkd * (appState.exchangeRate || 3250));
+      });
+
+      document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const vnd = Number(btn.dataset.vnd);
+          calcVndEl.value = vnd;
+          calcHkdEl.value = (vnd / (appState.exchangeRate || 3250)).toFixed(2);
+        });
+      });
+
+      rateInputEl.addEventListener('input', () => {
+        const newRate = parseFloat(rateInputEl.value);
+        if (!isNaN(newRate) && newRate > 0) {
+          appState.exchangeRate = newRate;
+          saveData(true);
+          renderRefTable();
+          renderExpenses();
+          if (calcVndEl.value !== '') {
+            calcHkdEl.value = (parseFloat(calcVndEl.value) / newRate).toFixed(2);
+          }
+        }
+      });
+
+      document.getElementById('btnExportJson').addEventListener('click', () => {
+        try {
+          const blob = new Blob([JSON.stringify(appState, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${TRIP_NAME}-backup-${new Date().toISOString().slice(0, 10)}.json`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          showToast('已匯出 JSON 備份檔');
+        } catch (err) {
+          showToast('匯出失敗');
+        }
+      });
+
+      document.getElementById('btnImportJson').addEventListener('click', () => {
+        const input = document.getElementById('importFileInput');
+        input.value = '';
+        input.click();
+      });
+
+      document.getElementById('importFileInput').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          try {
+            const parsed = JSON.parse(evt.target.result);
+            if (!parsed || typeof parsed !== 'object' || !parsed.itinerary) {
+              showToast('檔案格式不正確');
+              return;
+            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+            appState = loadData();
+            saveData(true);
+            document.getElementById('expSplitCheckboxes').innerHTML = '';
+            renderAll();
+            showToast('已成功還原備份資料');
+          } catch (err) {
+            showToast('匯入失敗：無效的 JSON 檔案');
+          }
+        };
+        reader.readAsText(file);
+      });
+
+      document.getElementById('btnResetDefault').addEventListener('click', () => {
+        openConfirm(
+          '重設為預設資料',
+          '確定要清除目前所有自訂編輯、照片、自訂越語句子、其他景點與記帳紀錄，重設為「5人成團 峴港貴婦遊」的預設資料嗎？',
+          () => {
+            appState = createDefaultData();
+            activeOtherCategory = '全部';
+            activePhraseCategory = '全部';
+            document.getElementById('phraseSearchInput').value = '';
+            document.getElementById('expSplitCheckboxes').innerHTML = '';
+            saveData(true);
+            renderAll();
+            showToast('已重設為預設資料');
+          }
+        );
+      });
+
+      /* =========================================================
+         MODALS & BOTTOM NAVIGATION
+         ========================================================= */
+      document.getElementById('closeConfirmModal').addEventListener('click', closeConfirm);
+      document.getElementById('cancelConfirmBtn').addEventListener('click', closeConfirm);
+      document.getElementById('okConfirmBtn').addEventListener('click', () => {
+        if (typeof pendingConfirmCallback === 'function') pendingConfirmCallback();
+        closeConfirm();
+      });
+
+      ['itineraryModal', 'addToItinModal', 'addPhraseModal', 'membersModal', 'confirmModal', 'lightboxModal'].forEach(modalId => {
+        document.getElementById(modalId).addEventListener('click', (e) => {
+          if (e.target.id === modalId) document.getElementById(modalId).classList.remove('open');
+        });
+      });
+
+      function switchTab(tabName, shouldSave) {
+        const validTabs = ['itinerary', 'other', 'phrases', 'expenses', 'currency'];
+        const validTab = validTabs.includes(tabName) ? tabName : 'itinerary';
+        appState.activeTab = validTab;
+        document.querySelectorAll('.bottom-nav .nav-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.tab === validTab);
+        });
+        document.querySelectorAll('.tab-panel').forEach(p => {
+          p.classList.toggle('active', p.id === `tab-${validTab}`);
+        });
+        if (shouldSave) {
+          saveData(true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      document.querySelectorAll('.bottom-nav .nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab, true));
+      });
+
+      /* =========================================================
+         INITIALIZE APP
+         ========================================================= */
+      function renderAll() {
+        renderDateTabs();
+        renderItineraryList();
+        renderOtherPlaces();
+        renderPhrases();
+        renderExpenses();
+        renderCurrencyTab();
+        switchTab(appState.activeTab, false);
+      }
+
+      renderAll();
+      saveData(false);
+    })();
+  </script>
+</body>
+</html>
